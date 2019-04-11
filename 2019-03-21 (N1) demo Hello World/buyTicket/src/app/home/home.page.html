@@ -1,0 +1,63 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Eventos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="outer-content">
+  <ion-list>
+    <ion-grid fixed>
+      <ion-row align-items-stretch>
+        <ion-col size="12" size-md="6">
+          <!--*ngFor="let speaker of speakers"-->
+          <ion-card class="speaker-card">
+            <ion-card-header>
+              <ion-item detail="false" lines="none">
+                <img class="imagem" src="../../assets/teste/elephant.jpg" alt="teste">
+              </ion-item>
+            </ion-card-header>
+
+            <ion-card-content>
+              <ion-list>
+                <ion-item>
+                  <!--routerLink="/app/tabs/speakers/speaker-details/{{speaker.id}}"-->
+                  <strong>Data: <br /></strong>
+                  <h3>07/04/2019</h3>
+                </ion-item>
+                <ion-item>
+                  <!--*ngFor="let session of speaker.sessions" routerLink="/app/tabs/speakers/session/{{session.id}}"-->
+                  <strong>Titulo: <br /></strong>
+                  <h3>Peça teatral</h3>
+                </ion-item>
+
+                <ion-item>
+                  <!--routerLink="/app/tabs/speakers/speaker-details/{{speaker.id}}"-->
+                  <strong>Descrição: <br /></strong>
+                  <h3>Evento muito importante</h3>
+                </ion-item>
+              </ion-list>
+            </ion-card-content>
+
+            <ion-row no-padding justify-content-center>
+              <ion-col text-left size="4">
+                <ion-button fill="clear" size="small" color="primary" (click)="goToSpeakerTwitter(speaker)">
+                  <ion-icon name="md-cash" slot="start"></ion-icon>
+                  Vender
+                </ion-button>
+              </ion-col>
+              <ion-col text-center size="4">
+                <ion-button fill="clear" size="small" color="primary" (click)="openSpeakerShare(speaker)">
+                  <ion-icon name="md-create" slot="start"></ion-icon>
+                  Editar
+                </ion-button>
+              </ion-col>
+            </ion-row>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-list>
+</ion-content>
