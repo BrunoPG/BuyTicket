@@ -9,4 +9,36 @@
 
 <ion-content>
 
+  <div>
+    <form #signupForm="ngForm" novalidate>
+      <ion-list lines="none">
+        <ion-item>
+          <ion-label position="stacked" color="primary">*Endereço servidor</ion-label>
+          <ion-input [(ngModel)]="config.servidor" name="servidor" type="text" #servidor="ngModel" required>
+          </ion-input>
+        </ion-item>
+        <ion-text color="danger">
+          <p [hidden]="servidor.valid || submitted == false" padding-left>
+            Campo endereço servidor é obrigatório
+          </p>
+        </ion-text>
+
+        <ion-item>
+          <ion-label position="stacked" color="primary">*Porta</ion-label>
+          <ion-input [(ngModel)]="config.porta" name="porta" type="number" #porta="ngModel" required>
+          </ion-input>
+        </ion-item>
+        <ion-text color="danger">
+          <p [hidden]="porta.valid || submitted == false" padding-left>
+            Campo porta é obrigatório
+          </p>
+        </ion-text>
+      </ion-list>
+
+      <div padding>
+        <ion-button (click)="SetarConfiguracao(signupForm)" type="submit" expand="block">Salvar</ion-button>
+      </div>
+    </form>
+  </div>
+
 </ion-content>
