@@ -5,7 +5,8 @@ const connection = mysqlServer.createConnection({
   host: process.env.MYSQL_HOST,
   user: process.env.MYSQL_USERNAME,
   password: process.env.MYSQL_PASSWORD,
-  database: process.env.MYSQL_DATABASE
+  database: process.env.MYSQL_DATABASE,
+  insecureAuth :true
 })
 
 const errorHandler = (error, msg, rejectFunction) => {
@@ -13,12 +14,14 @@ const errorHandler = (error, msg, rejectFunction) => {
   rejectFunction({ error: msg })
 }
 
-const categoryModule = require('./categories')({ connection, errorHandler })
+const eventoModule = require('./evento')({ connection, errorHandler })
+const gastoModule = require('./gasto')({ connection, errorHandler })
 const usersModule = require('./users')({ connection, errorHandler })
 const authModule = require('./auth')({ connection, errorHandler })
 
 module.exports = {
-  categories: () => categoryModule,
+  gasto: () => gastoModule,
+  evento: () => eventoModule,
   users: () => usersModule,
   auth: () => authModule
 }
