@@ -1,12 +1,32 @@
 <ion-header>
-    <ion-toolbar>
-      <ion-buttons slot="start">
-        <ion-menu-button></ion-menu-button>
-      </ion-buttons>
-      <ion-title>Sala</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Sala</ion-title>
+  </ion-toolbar>
+</ion-header>
 
 <ion-content>
 
+  <ion-item>
+    <ion-label>Código</ion-label>
+    <ion-label>Nome sala</ion-label>
+    <ion-label>Descrição</ion-label>
+    <ion-label>capacidade</ion-label>
+  </ion-item>
+  <ion-list *ngFor="let s of salas;">
+    <ion-item (click)="editarSala(s.codigo)">
+      <ion-label >{{s.codigo}}</ion-label> 
+      <ion-label >{{s.nome}}</ion-label>
+      <ion-label >{{s.descricao}}</ion-label>
+      <ion-label >{{s.capacidade}}</ion-label>
+    </ion-item>
+  </ion-list>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="editarSala(0)">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>

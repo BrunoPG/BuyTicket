@@ -8,7 +8,9 @@ const routes: Routes = [
   { path: 'evento', loadChildren: './evento/evento.module#EventoPageModule' },
   { path: 'sala', loadChildren: './sala/sala.module#SalaPageModule' },
   { path: 'setor', loadChildren: './setor/setor.module#SetorPageModule' },
-  { path: 'configuracoes', loadChildren: './configuracoes/configuracoes.module#ConfiguracoesPageModule' }
+  { path: 'configuracoes', loadChildren: './configuracoes/configuracoes.module#ConfiguracoesPageModule' },
+  { path: 'cadastro-setor', loadChildren: './cadastro-setor/cadastro-setor.module#CadastroSetorPageModule' },
+  { path: 'cadastro-sala', loadChildren: './cadastro-sala/cadastro-sala.module#CadastroSalaPageModule' }
 ];
 
 @NgModule({
