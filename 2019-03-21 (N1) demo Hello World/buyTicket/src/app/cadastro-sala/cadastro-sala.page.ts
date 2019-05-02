@@ -2,7 +2,6 @@ import { Component, OnInit, Input } from '@angular/core';
 import { NavController, NavParams } from '@ionic/angular';
 import { Sala } from '../configuracao';
 import { ProviderService } from '../provider.service';
-import { ViewController } from '@ionic/core';
 
 @Component({
   selector: 'app-cadastro-sala',
@@ -19,8 +18,7 @@ export class CadastroSalaPage implements OnInit {
   sala: Sala 
   constructor(navParams: NavParams, 
     public navCtrl: NavController, 
-    public provider: ProviderService,
-    public viewCtrl : ViewController) {
+    public provider: ProviderService) {
 
      this.provider.GetSala(navParams.data.value).then(sala=>{
       this.sala = sala
@@ -38,7 +36,6 @@ export class CadastroSalaPage implements OnInit {
   }
 
   sair() {
-    //this.viewCtrl.dismiss();
   }
 
   excluir() {
