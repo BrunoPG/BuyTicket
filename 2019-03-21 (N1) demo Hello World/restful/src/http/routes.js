@@ -29,16 +29,6 @@ const routes = (server) => {
     next()
   })
 
-  server.get('/getuserbyemail/:email', async (req, res, next) => {
-    let email = req.params.email
-    try {
-      res.send(await db.users().getUserByEmail(email))
-    } catch (error) {
-      res.send(error)
-    }
-    next()
-  })
-
   server.post('usuario', async (req, res, next) => {
     const user = req.body
     try {
@@ -59,9 +49,9 @@ const routes = (server) => {
     next()
   })
 
-  server.get('/geteventbyuserid/:id', async (req, res, next) => {
+  server.get('evento/geteventobyid/:id', async (req, res, next) => {
     try {
-      res.send(await db.evento().allByUser(req.params.id))
+      res.send(await db.evento().allByEvento(req.params.id))
     } catch (error) {
       res.send(error)
     }
@@ -70,8 +60,9 @@ const routes = (server) => {
 
   server.post('evento', async (req, res, next) => {
     const evento = req.body
+    console.log(evento);
     try {
-      res.send(await db.evento().save(evento.evento, evento.id))
+      res.send(await db.evento().save(evento))
     } catch (error) {
       console.log(error)
       res.send(error)
@@ -81,9 +72,8 @@ const routes = (server) => {
 
   server.put('evento', async (req, res, next) => {
     const evento = req.body
-    console.log(evento)
     try {
-      res.send(await db.evento().update(evento.evento, evento.id))
+      res.send(await db.evento().update(evento, evento.id))
     } catch (error) {
       res.send(error)
     }
@@ -99,39 +89,39 @@ const routes = (server) => {
     next()
   })
 
-  server.get('/gastobyeventoid/:id', async (req, res, next) => {
+  server.get('/setorbysalaid/:id', async (req, res, next) => {
     try {
-      res.send(await db.gasto().allByEvento(req.params.id))
+      res.send(await db.setor().allByEvento(req.params.id))
     } catch (error) {
       res.send(error)
     }
     next()
   })
 
-  server.post('gasto', async (req, res, next) => {
-    const gasto = req.body
+  server.post('setor', async (req, res, next) => {
+    const evento = req.body
     try {
-      res.send(await db.gasto().save(gasto.gasto, gasto.id))
+      res.send(await db.evento().save(evento))
     } catch (error) {
       res.send(error)
     }
     next()
   })
 
-  server.put('gasto', async (req, res, next) => {
-    const gasto = req.body
-    console.log(gasto)
+  server.put('evento', async (req, res, next) => {
+    const evento = req.body
+    
     try {
-      res.send(await db.gasto().update(gasto.gasto, gasto.id))
+      res.send(await db.evento().update(evento))
     } catch (error) {
       res.send(error)
     }
     next()
   })
 
-  server.del('gasto/:id', async (req, res, next) => {
+  server.del('evento/:id', async (req, res, next) => {
     try {
-      res.send(await db.gasto().del(req.params.id))
+      res.send(await db.evento().del(req.params.id))
     } catch (error) {
       res.send(error)
     }

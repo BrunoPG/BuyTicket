@@ -28,6 +28,7 @@
   "dependencies": {
     "@types/jssha": "0.0.29",
     "crypto-js": "^3.1.9-1",
-    "jssha": "^2.3.1"
+    "jssha": "^2.3.1",
+    "nodemon": "^1.18.11"
   }
 }

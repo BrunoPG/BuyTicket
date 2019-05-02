@@ -15,6 +15,7 @@ const errorHandler = (error, msg, rejectFunction) => {
 }
 
 const eventoModule = require('./evento')({ connection, errorHandler })
+const setorModule = require('./setor')({ connection, errorHandler })
 const gastoModule = require('./gasto')({ connection, errorHandler })
 const usersModule = require('./users')({ connection, errorHandler })
 const authModule = require('./auth')({ connection, errorHandler })
@@ -23,5 +24,6 @@ module.exports = {
   gasto: () => gastoModule,
   evento: () => eventoModule,
   users: () => usersModule,
-  auth: () => authModule
+  auth: () => authModule,
+  setor: () => setorModule
 }
