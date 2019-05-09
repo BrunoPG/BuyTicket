@@ -25,11 +25,11 @@ export class AppComponent {
       url: '/sala',
       icon: 'apps'
     },
-    {
+    /*{
       title: 'Setor',
       url: '/setor',
       icon: 'bookmark'
-    },
+    },*/
     {
       title: 'Configurações',
       url: '/configuracoes',
