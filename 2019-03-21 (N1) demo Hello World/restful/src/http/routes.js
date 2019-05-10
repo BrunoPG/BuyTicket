@@ -11,6 +11,7 @@ const routes = (server) => {
     }
     next()
   })*/
+  
   server.get('/getbyemail/:email', async (req, res, next) => {
     try {
       res.send(await db.users().getByEmail(req.params.email))
@@ -50,6 +51,9 @@ const routes = (server) => {
   })
 
   server.get('evento/geteventobyid/:id', async (req, res, next) => {
+    if(req.headers.authorization != "123"){
+      return res.send(401, {"message": 'usuario invalido'});
+    }
     try {
       res.send(await db.evento().allByEvento(req.params.id))
     } catch (error) {
@@ -98,10 +102,19 @@ const routes = (server) => {
     next()
   })
 
-  server.post('setor', async (req, res, next) => {
-    const evento = req.body
+  server.post('setor/save', async (req, res, next) => {
+    const setor = req.body
     try {
-      res.send(await db.evento().save(evento))
+      res.send(await db.setor().save(setor))
+    } catch (error) {
+      res.send(error)
+    }
+    next()
+  })
+
+  server.get('setor/all', async (req, res, next) => {
+    try {
+      res.send(await db.setor().all())
     } catch (error) {
       res.send(error)
     }

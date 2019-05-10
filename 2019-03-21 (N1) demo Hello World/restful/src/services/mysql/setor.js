@@ -18,7 +18,7 @@ const setor = deps => {
     save: (setor) => {
       return new Promise((resolve, reject) => {
         const { connection, errorHandler } = deps
-        connection.query('INSERT INTO setor (nome, descricao, fk_sala) VALUES (?,?,?)', [setor.nome,  setor.descricao, setor.sala_id], (error, results) => {
+        connection.query('INSERT INTO setor (nome, descricao, qtd_fileira, qtd_coluna) VALUES (?, ?, ?, ?)', [setor.nome,  setor.descricao, setor.qtd_fileira, setor.qtd_coluna], (error, results) => {
           if (error) {
             console.log(error)
             errorHandler(error, `Falha ao salvar o setor ${setor.nome}`, reject)
