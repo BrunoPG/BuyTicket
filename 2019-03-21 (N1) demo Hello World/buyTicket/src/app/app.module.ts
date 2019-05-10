@@ -9,6 +9,7 @@ import { IonicStorageModule } from '@ionic/storage';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { CadastroSalaPageModule } from './cadastro-sala/cadastro-sala.module';
+import { CadastroSetorPageModule } from './cadastro-setor/cadastro-setor.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -18,7 +19,8 @@ import { CadastroSalaPageModule } from './cadastro-sala/cadastro-sala.module';
     IonicModule.forRoot(),
     AppRoutingModule,
     IonicStorageModule.forRoot(),
-    CadastroSalaPageModule
+    CadastroSalaPageModule,
+    CadastroSetorPageModule
   ],
   providers: [
     StatusBar,

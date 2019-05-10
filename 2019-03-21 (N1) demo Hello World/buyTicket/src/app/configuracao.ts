@@ -4,11 +4,21 @@ export interface Configuracao {
     porta: number;
 }
 
-export interface Sala {
+export class Sala {
     codigo: Number
     nome: String
     descricao: String
     capacidade: Number
+}
+
+export class Setor {
+    codigo: Number
+    codSala: Number
+    nome: String
+    descricao: String
+    qtd_fileira: Number
+    qtd_colunas: Number
+
 }
 
 

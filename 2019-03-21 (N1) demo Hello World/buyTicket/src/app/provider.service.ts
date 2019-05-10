@@ -52,7 +52,6 @@ export class ProviderService {
   }
 
   GetListaSalas(): Array<Sala> {
-    this.listaSala = new Array<Sala>();
     this.listaSala.push(this.s)
     this.listaSala.push(this.s2)
 
@@ -63,7 +62,7 @@ export class ProviderService {
     return new Promise(
       (resolve, reject) => {
         this.listaSala.forEach(s => {
-          if (s.codigo = cod) {
+          if (s.codigo == cod) {
             resolve(s);
           }
         });

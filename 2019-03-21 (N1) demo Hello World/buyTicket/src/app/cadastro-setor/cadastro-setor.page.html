@@ -5,35 +5,31 @@
 </ion-header>
 
 <ion-content>
-  <ion-item>
-    <ion-label position="fixed">Código:</ion-label>
-    <ion-input readonly>100</ion-input>
-  </ion-item>
-
-  <ion-item>
-    <ion-label position="stacked">Nome:</ion-label>
-    <ion-input></ion-input>
-  </ion-item>
-
-  <ion-item>
-    <ion-label position="stacked">Descrição:</ion-label>
-    <ion-input></ion-input>
-  </ion-item>
-  <ion-item>
-    <ion-label position="flating">Fileiras:</ion-label>
-    <ion-input type="number"></ion-input>
-    <ion-label position="flating">Colunas:</ion-label>
-    <ion-input type="number"></ion-input>
-  </ion-item>
-  <div text-center>
-    <ion-button expand="round" (click)="Excluir()">
-      <ion-icon name="md-trash"></ion-icon>Excluir
-    </ion-button>
-    <ion-button expand="round" (click)="Salvar()">
-      <ion-icon name="save"></ion-icon>Salvar
-    </ion-button>
-    <ion-button expand="round" (click)="Sair()">
+  <Form [formGroup]="Form">
+    <ion-item>
+      <ion-label position="fixed" [(ngModel)]="codigoF">Código:</ion-label>
+      <ion-input readonly>{{setor.codigo}}</ion-input>
+      <ion-label position="round" [(ngModel)]="nomeF">Nome:</ion-label>
+      <ion-input>{{setor.nome}}</ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label vertical="bottom" position="flating">Fileiras:</ion-label>
+      <ion-input type="number" [(ngModel)]="fileira">{{setor.qtd_fileira}}</ion-input>
+      <ion-label position="flating">Colunas:</ion-label>
+      <ion-input type="number" [(ngModel)]="colunas">{{setor.qtd_colunas}}</ion-input>
+    </ion-item>
+    <div text-center vertical="bottom">
+      <ion-button expand="round" (click)="Excluir()">
+        <ion-icon name="md-trash"></ion-icon>Excluir
+      </ion-button>
+      <ion-button expand="round" (click)="Salvar()">
+        <ion-icon name="save"></ion-icon>Salvar
+      </ion-button>
+      <!--
+      <ion-button expand="round" (click)="Sair()">
       <ion-icon name="exit"></ion-icon>Sair
     </ion-button>
-  </div>
+    -->
+    </div>
+  </Form>
 </ion-content>

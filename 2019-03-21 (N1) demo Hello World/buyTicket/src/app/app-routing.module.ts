@@ -9,8 +9,8 @@ const routes: Routes = [
   { path: 'sala', loadChildren: './sala/sala.module#SalaPageModule' },
   { path: 'setor', loadChildren: './setor/setor.module#SetorPageModule' },
   { path: 'configuracoes', loadChildren: './configuracoes/configuracoes.module#ConfiguracoesPageModule' },
-  { path: 'cadastro-setor', loadChildren: './cadastro-setor/cadastro-setor.module#CadastroSetorPageModule' },
-  { path: 'cadastro-sala', loadChildren: './cadastro-sala/cadastro-sala.module#CadastroSalaPageModule' }
+  { path: 'cadastro-setor/:idSetor', loadChildren: './cadastro-setor/cadastro-setor.module#CadastroSetorPageModule' },
+  { path: 'cadastro-sala/:id', loadChildren: './cadastro-sala/cadastro-sala.module#CadastroSalaPageModule' }
 ];
 
 @NgModule({

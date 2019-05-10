@@ -29,12 +29,8 @@ export class SalaPage implements OnInit {
   ngOnInit() {
   }
 
-  async editarSala(codSala: number) {    
-    const modalCad = await this.modal.create({
-      component: CadastroSalaPage,
-      componentProps: { value: codSala }
-    }); 
-    await modalCad.present(); 
+  editarSala(codSala: number) {       
+    this.NavCtrl.navigateForward('cadastro-sala/'+codSala)
    
   }
 
