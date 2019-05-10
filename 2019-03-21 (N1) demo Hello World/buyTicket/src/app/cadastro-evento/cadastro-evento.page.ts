@@ -4,7 +4,7 @@ import { Component, OnInit } from '@angular/core';
   selector: 'app-cadastro-evento',
   templateUrl: './cadastro-evento.page.html',
   styleUrls: ['./cadastro-evento.page.scss'],
-})
+}) 
 export class CadastroEventoPage implements OnInit {
 
   constructor() { }
