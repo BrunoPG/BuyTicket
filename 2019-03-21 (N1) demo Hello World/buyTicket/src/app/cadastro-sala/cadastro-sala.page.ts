@@ -55,25 +55,20 @@ export class CadastroSalaPage implements OnInit {
 
   }
 
-  async ConfigurarSetor(codSetor: Number) {
-    let sSetor: Setor
-    this.setores.forEach(s => {
-      if (s.codigo == codSetor) {
-        sSetor = s;
-      }
-    });
-    const modalCad = await this.modal.create({
-      component: CadastroSetorPage,
-      componentProps: { setor: sSetor }
-    });
-    modalCad.onDidDismiss().then((detail: OverlayEventDetail) => {
-      if (detail !== null) {
-        sSetor = detail.data;
-      } else {
-
-      }
-    });
-    await modalCad.present();
+  async editarSetor(setor: Setor) {
+    if (setor != null) {
+      let indx = this.setores.indexOf(setor);
+      const modalCad = await this.modal.create({
+        component: CadastroSetorPage,
+        componentProps: { setor: setor }
+      });
+      modalCad.onDidDismiss().then((detail: OverlayEventDetail) => {
+        if (detail.data == null) {
+          this.setores.splice(indx, 1)
+        }
+      });
+      await modalCad.present();
+    }
   }
 
 
@@ -95,10 +90,6 @@ export class CadastroSalaPage implements OnInit {
       if (detail !== null) {
         newSetor = detail.data;
         this.setores.push(newSetor);
-        this.setores.forEach(element => {
-          console.log(element);
-        });
-
       }
     });
     await modalCad.present();

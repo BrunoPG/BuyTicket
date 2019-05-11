@@ -5,31 +5,32 @@
 </ion-header>
 
 <ion-content>
-  <Form [formGroup]="Form">
-    <ion-item>
-      <ion-label position="fixed" [(ngModel)]="codigoF">Código:</ion-label>
-      <ion-input readonly>{{setor.codigo}}</ion-input>
-      <ion-label position="round" [(ngModel)]="nomeF">Nome:</ion-label>
-      <ion-input>{{setor.nome}}</ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label vertical="bottom" position="flating">Fileiras:</ion-label>
-      <ion-input type="number" [(ngModel)]="fileira">{{setor.qtd_fileira}}</ion-input>
-      <ion-label position="flating">Colunas:</ion-label>
-      <ion-input type="number" [(ngModel)]="colunas">{{setor.qtd_colunas}}</ion-input>
-    </ion-item>
-    <div text-center vertical="bottom">
-      <ion-button expand="round" (click)="Excluir()">
-        <ion-icon name="md-trash"></ion-icon>Excluir
-      </ion-button>
-      <ion-button expand="round" (click)="Salvar()">
-        <ion-icon name="save"></ion-icon>Salvar
-      </ion-button>
-      <!--
-      <ion-button expand="round" (click)="Sair()">
-      <ion-icon name="exit"></ion-icon>Sair
-    </ion-button>
-    -->
-    </div>
-  </Form>
+  <div>
+    <Form novalidate>
+
+      <ion-item >
+       <!-- <ion-label position="fixed">Código:</ion-label>
+        <ion-input readonly [(ngModel)]="setor.codigo" #codigo="ngModel" name="codigo"></ion-input>-->
+        <ion-label position="round">Nome:</ion-label>
+        <ion-input [(ngModel)]="setor.nome" #nome="ngModel" name="nome"></ion-input>
+        <ion-label position="round">Descriçao:</ion-label>
+        <ion-input [(ngModel)]="setor.descricao" #descricao="ngModel" name="descricao"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label vertical="bottom" position="flating">Fileiras:</ion-label>
+        <ion-input type="number" [(ngModel)]="setor.qtd_fileira" name="qtd_fileira" #qtd_fileira="ngModel"></ion-input>
+        <ion-label position="flating">Colunas:</ion-label>
+        <ion-input type="number" [(ngModel)]="setor.qtd_colunas" name="qtd_colunas" #qtd_colunas="ngModel"></ion-input>
+      </ion-item>
+      <div text-center vertical="bottom" style="margin-top: 10%;">
+        <ion-button  fill="outline" (click)="excluir()">
+          <ion-icon name="md-trash"></ion-icon>Excluir
+        </ion-button>
+        <ion-button  fill="outline" (click)="salvar()">
+          <ion-icon name="save"></ion-icon>Salvar
+        </ion-button>
+      </div>
+    </Form>
+  </div>
 </ion-content>
+

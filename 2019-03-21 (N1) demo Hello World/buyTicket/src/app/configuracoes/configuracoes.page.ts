@@ -3,7 +3,7 @@ import { NgForm } from '@angular/forms';
 import { Configuracao } from '../../app/configuracao';
 import { ProviderService } from '../provider.service';
 import { Router } from '@angular/router';
-
+ 
 @Component({
   selector: 'app-configuracoes',
   templateUrl: './configuracoes.page.html',
