@@ -21,4 +21,11 @@ export class Setor {
 
 }
 
+export class Acento{
+    j: Number
+    i: Number
+    tipo: Number
+    
+}
+
 

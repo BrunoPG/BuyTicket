@@ -7,9 +7,8 @@
 <ion-content>
   <div>
     <Form novalidate>
-
-      <ion-item >
-       <!-- <ion-label position="fixed">Código:</ion-label>
+      <ion-item>
+        <!-- <ion-label position="fixed">Código:</ion-label>
         <ion-input readonly [(ngModel)]="setor.codigo" #codigo="ngModel" name="codigo"></ion-input>-->
         <ion-label position="round">Nome:</ion-label>
         <ion-input [(ngModel)]="setor.nome" #nome="ngModel" name="nome"></ion-input>
@@ -18,19 +17,51 @@
       </ion-item>
       <ion-item>
         <ion-label vertical="bottom" position="flating">Fileiras:</ion-label>
-        <ion-input type="number" [(ngModel)]="setor.qtd_fileira" name="qtd_fileira" #qtd_fileira="ngModel"></ion-input>
+        <ion-input type="number" [(ngModel)]="setor.qtd_fileira" (change)="definirAcentos()" name="qtd_fileira"
+          #qtd_fileira="ngModel"></ion-input>
         <ion-label position="flating">Colunas:</ion-label>
-        <ion-input type="number" [(ngModel)]="setor.qtd_colunas" name="qtd_colunas" #qtd_colunas="ngModel"></ion-input>
+        <ion-input type="number" [(ngModel)]="setor.qtd_colunas" (change)="definirAcentos()" name="qtd_colunas"
+          #qtd_colunas="ngModel"></ion-input>
       </ion-item>
-      <div text-center vertical="bottom" style="margin-top: 10%;">
-        <ion-button  fill="outline" (click)="excluir()">
-          <ion-icon name="md-trash"></ion-icon>Excluir
-        </ion-button>
-        <ion-button  fill="outline" (click)="salvar()">
-          <ion-icon name="save"></ion-icon>Salvar
-        </ion-button>
-      </div>
     </Form>
+    <div text-center vertical="bottom" style="margin-top: 1%;">
+      <ion-button fill="outline" (click)="excluir()">
+        <ion-icon name="md-trash"></ion-icon>Excluir
+      </ion-button>
+      <ion-button fill="outline" (click)="salvar()">
+        <ion-icon name="save"></ion-icon>Salvar
+      </ion-button>
+    </div>
+    <div>
+      <ion-grid>
+        <ion-row style="display: grid;">
+          <ion-radio-group text-center>
+            <ion-col style=" width: 20%;">
+              <ion-label color="primary">Ativo</ion-label>
+              <ion-radio color="primary"></ion-radio>
+            </ion-col>
+            <ion-col>
+              <ion-label color="danger">Reservado</ion-label>
+              <ion-radio color="danger"></ion-radio>
+            </ion-col>
+            <ion-col>
+              <ion-label color="secondary">Especial</ion-label>
+              <ion-radio color="secondary"></ion-radio>
+            </ion-col>
+            <ion-col>
+              <ion-label color="medium">Ativo</ion-label>
+              <ion-radio color="medium"></ion-radio>
+            </ion-col>
+          </ion-radio-group>
+        </ion-row>
+      </ion-grid>
+    </div>
+    <ion-grid>
+      <ion-row *ngFor="let row of acentos">
+        <ion-col *ngFor="let acento of row" style="width: 1%; height: 2%;">
+          <ion-checkbox color="primary">1</ion-checkbox>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
   </div>
 </ion-content>
-

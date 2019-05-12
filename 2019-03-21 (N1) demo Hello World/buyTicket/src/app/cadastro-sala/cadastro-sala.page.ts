@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { NavController, ModalController } from '@ionic/angular';
 import { Sala, Setor } from '../configuracao';
 import { ProviderService } from '../provider.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CadastroSetorPage } from '../cadastro-setor/cadastro-setor.page';
 import { OverlayEventDetail } from '@ionic/core';
 
@@ -24,7 +24,8 @@ export class CadastroSalaPage implements OnInit {
     public navCtrl: NavController,
     public provider: ProviderService,
     private activatedRoute: ActivatedRoute,
-    public modal: ModalController) {
+    public modal: ModalController,
+    public router: Router) {
     let id = this.activatedRoute.snapshot.paramMap.get('id')
     this.provider.GetSala(Number(id)).then(sala => {
       this.sala = sala
@@ -87,12 +88,14 @@ export class CadastroSalaPage implements OnInit {
       componentProps: { setor: newSetor }
     });
     modalCad.onDidDismiss().then((detail: OverlayEventDetail) => {
-      if (detail !== null) {
+      if (detail.data != null) {
         newSetor = detail.data;
         this.setores.push(newSetor);
       }
     });
     await modalCad.present();
   }
+
+
 
 }
