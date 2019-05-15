@@ -1,5 +1,7 @@
 {
   "name": "buyTicket",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }

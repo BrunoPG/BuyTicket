@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { NavController, ModalController } from '@ionic/angular';
-import { Sala, Setor } from '../configuracao';
+import { Sala, Setor, Acento } from '../configuracao';
 import { ProviderService } from '../provider.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CadastroSetorPage } from '../cadastro-setor/cadastro-setor.page';
@@ -19,7 +19,7 @@ export class CadastroSalaPage implements OnInit {
 
 
   sala: Sala
-  setores: Array<Setor>;
+  //setores: Array<Setor>;
   constructor(
     public navCtrl: NavController,
     public provider: ProviderService,
@@ -29,15 +29,14 @@ export class CadastroSalaPage implements OnInit {
     let id = this.activatedRoute.snapshot.paramMap.get('id')
     this.provider.GetSala(Number(id)).then(sala => {
       this.sala = sala
-    }).catch(SalaVazia => {
-      this.sala = SalaVazia
+      if (this.sala.codigo == 0) {
+        this.acao = "Criar sala"
+      } else {
+        this.acao = "Editando sala"
+      }
+    }).catch(() => {
+      this.sala = new Sala()
     })
-    if (id == '0') {
-      this.acao = "Criar sala"
-    } else {
-      this.acao = "Editar sala"
-    }
-    this.setores = new Array<Setor>();
 
   }
 
@@ -45,7 +44,9 @@ export class CadastroSalaPage implements OnInit {
   }
 
   salvar() {
-
+    if (this.sala.codigo == 0)
+      this.provider.AddSala(this.sala);
+    this.navCtrl.back();
   }
 
   sair() {
@@ -53,20 +54,24 @@ export class CadastroSalaPage implements OnInit {
   }
 
   excluir() {
-
+    this.provider.ExcluirSala(this.sala)
+    this.navCtrl.back();
   }
 
   async editarSetor(setor: Setor) {
     if (setor != null) {
-      let indx = this.setores.indexOf(setor);
       const modalCad = await this.modal.create({
         component: CadastroSetorPage,
-        componentProps: { setor: setor }
+        componentProps: { setor: setor.codigo, sala: this.sala.codigo }
       });
       modalCad.onDidDismiss().then((detail: OverlayEventDetail) => {
-        if (detail.data == null) {
-          this.setores.splice(indx, 1)
+        if (detail.data.acao == 2) {
+          let indx = this.sala.setores.indexOf(setor);
+          this.sala.setores.splice(indx, 1)
+        } else if (detail.data.acao == 1) {
+          setor = detail.data.obj;
         }
+
       });
       await modalCad.present();
     }
@@ -74,25 +79,24 @@ export class CadastroSalaPage implements OnInit {
 
 
   async CriarSetor() {
-    let newSetor: Setor;
-    newSetor = new Setor();
-
-    newSetor.codigo = 0;
-    newSetor.descricao = '';
-    newSetor.nome = '';
-    newSetor.qtd_colunas = 0;
-    newSetor.qtd_fileira = 0;
-
     const modalCad = await this.modal.create({
       component: CadastroSetorPage,
-      componentProps: { setor: newSetor }
+      componentProps: { setor: 0, sala: this.sala.codigo }
     });
     modalCad.onDidDismiss().then((detail: OverlayEventDetail) => {
-      if (detail.data != null) {
-        newSetor = detail.data;
-        this.setores.push(newSetor);
+
+      if (detail.data.acao == 0) {
+        let novoSetor: Setor
+        novoSetor = detail.data.obj
+        let newCod = this.provider.GetChaveSetor(this.sala.codigo)
+        if (newCod == 0) {
+          newCod = this.sala.setores.length + 1
+        }
+        novoSetor.codigo = newCod;
+        this.sala.setores.push(novoSetor);
       }
     });
+
     await modalCad.present();
   }
 

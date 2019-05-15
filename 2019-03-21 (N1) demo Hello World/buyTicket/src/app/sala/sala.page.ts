@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController, NavController } from '@ionic/angular';
 import { Sala } from '../configuracao';
-import { CadastroSalaPage } from '../cadastro-sala/cadastro-sala.page';
 import { ProviderService } from '../provider.service';
-import { providerDef } from '@angular/core/src/view';
 
 
 @Component({
@@ -30,8 +28,7 @@ export class SalaPage implements OnInit {
   }
 
   editarSala(codSala: number) {       
-    this.NavCtrl.navigateForward('cadastro-sala/'+codSala)
-   
+    this.NavCtrl.navigateForward('cadastro-sala/'+codSala)   
   }
 
 }

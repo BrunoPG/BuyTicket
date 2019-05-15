@@ -7,19 +7,21 @@
   </ion-toolbar>
 </ion-header>
 <ion-content>
-  <ion-item>
+  <!--
+    <ion-item>
     <ion-label position="fixed">Código:</ion-label>
-    <ion-input readonly>{{sala.codigo}}</ion-input>
+    <ion-input readonly [(ngModel)]="sala.codigo" #codigo="ngModel" name="codigo"></ion-input>
   </ion-item>
+  -->
 
   <ion-item>
     <ion-label position="stacked">Nome:</ion-label>
-    <ion-input value="{{sala.nome}}"></ion-input>
+    <ion-input [(ngModel)]="sala.nome" #nome="ngModel" name="nome" value="{{sala.nome}}"></ion-input>
   </ion-item>
 
   <ion-item>
     <ion-label position="stacked">Descrição:</ion-label>
-    <ion-input value="{{sala.descricao}}"></ion-input>
+    <ion-input [(ngModel)]="sala.descricao" #descricao="ngModel" name="descricao" value="{{sala.descricao}}"></ion-input>
   </ion-item>
 
   <div text-center>
@@ -40,7 +42,7 @@
   <ion-item>
     <ion-label position="center">Setores</ion-label>
   </ion-item>
-  <ion-list *ngFor="let setor of setores">
+  <ion-list *ngFor="let setor of sala.setores">
     <ion-item (click)="editarSetor(setor)">
       <ion-label>{{setor.nome}}</ion-label>
       <ion-label>{{setor.descricao}}</ion-label>

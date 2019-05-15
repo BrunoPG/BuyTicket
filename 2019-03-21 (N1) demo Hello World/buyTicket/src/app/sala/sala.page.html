@@ -13,14 +13,14 @@
     <ion-label>Código</ion-label>
     <ion-label>Nome sala</ion-label>
     <ion-label>Descrição</ion-label>
-    <ion-label>capacidade</ion-label>
+    <ion-label>Setores</ion-label>
   </ion-item>
   <ion-list *ngFor="let s of salas">
     <ion-item (click)="editarSala(s.codigo)">
       <ion-label >{{s.codigo}}</ion-label> 
       <ion-label >{{s.nome}}</ion-label>
       <ion-label >{{s.descricao}}</ion-label>
-      <ion-label >{{s.capacidade}}</ion-label>      
+      <ion-label >{{s.setores.length}}</ion-label>      
     </ion-item>
   </ion-list>
 

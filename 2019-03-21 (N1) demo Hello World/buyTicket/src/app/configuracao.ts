@@ -1,3 +1,5 @@
+const acao = ['add', 'update', 'delete', 'none']
+
 export interface Configuracao {
 
     servidor: String;
@@ -9,23 +11,41 @@ export class Sala {
     nome: String
     descricao: String
     capacidade: Number
+    setores: Array<Setor>;
+
+    constructor() {
+
+        this.codigo = 0
+        this.nome = ""
+        this.descricao = ""
+        this.setores = new Array<Setor>();
+    }
 }
 
 export class Setor {
     codigo: Number
-    codSala: Number
     nome: String
     descricao: String
     qtd_fileira: Number
     qtd_colunas: Number
+    acentos: Array<Array<Acento>>;
+
+    constructor() {
+        this.codigo = 0
+        this.nome = ''
+        this.descricao = ''
+        this.qtd_fileira = 0
+        this.qtd_colunas = 0
+        this.acentos = new Array<Array<Acento>>();
+    }
+
 
 }
 
-export class Acento{
+export class Acento {
     j: Number
     i: Number
     tipo: Number
-    
+    ativo: boolean
 }
-
 
