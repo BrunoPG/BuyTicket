@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
-import { Sala, Setor } from '../../src/app/configuracao';
+import { Sala, Setor, Evento } from '../../src/app/configuracao';
 import { Http } from '@angular/http';
 
 @Injectable({
@@ -13,6 +13,7 @@ export class ProviderService {
 
 
   listaSala = new Array<Sala>()
+  listaEventos= new Array<Evento>()
 
   constructor(
     public storage: Storage,
@@ -21,6 +22,11 @@ export class ProviderService {
 
 
 
+  }
+
+
+  GetListaEventos(): Array<Evento> {
+    return this.listaEventos; 
   }
 
 

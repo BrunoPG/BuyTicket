@@ -1,3 +1,5 @@
+import { Time } from '@angular/common';
+
 const acao = ['add', 'update', 'delete', 'none']
 
 export interface Configuracao {
@@ -47,5 +49,16 @@ export class Acento {
     i: Number
     tipo: Number
     ativo: boolean
+}
+
+
+export class Evento {
+    cod: Number
+    nome: String
+    descricao: String
+    hora: Time
+    data: Date
+    local: String
+    capacidade: Number    
 }
 
