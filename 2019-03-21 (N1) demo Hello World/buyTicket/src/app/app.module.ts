@@ -11,6 +11,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { CadastroSalaPageModule } from './cadastro-sala/cadastro-sala.module';
 import { CadastroSetorPageModule } from './cadastro-setor/cadastro-setor.module';
 import { HttpModule } from '@angular/http';
+import { CadastroEventoPageModule } from './cadastro-evento/cadastro-evento.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -22,6 +23,7 @@ import { HttpModule } from '@angular/http';
     IonicStorageModule.forRoot(),
     CadastroSalaPageModule,
     CadastroSetorPageModule,
+    CadastroEventoPageModule,
     HttpModule
   ],
   providers: [

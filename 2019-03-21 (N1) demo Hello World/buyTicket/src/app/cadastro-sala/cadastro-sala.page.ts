@@ -19,7 +19,7 @@ export class CadastroSalaPage implements OnInit {
 
 
   sala: Sala
-  //setores: Array<Setor>;
+  
   constructor(
     public navCtrl: NavController,
     public provider: ProviderService,

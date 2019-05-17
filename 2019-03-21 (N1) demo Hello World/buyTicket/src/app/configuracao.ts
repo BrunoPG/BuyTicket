@@ -56,9 +56,17 @@ export class Evento {
     cod: Number
     nome: String
     descricao: String
-    hora: Time
     data: Date
     local: String
-    capacidade: Number    
+    qtd_ingresos: Number    
+
+    constructor() {
+        this.cod = 0
+        this.nome = ''
+        this.descricao = ''
+        this.data = new Date();
+        this.local = "";
+        this.qtd_ingresos = 0;
+    }
 }
 

@@ -13,7 +13,7 @@ export class ProviderService {
 
 
   listaSala = new Array<Sala>()
-  listaEventos= new Array<Evento>()
+  listaEventos = new Array<Evento>()
 
   constructor(
     public storage: Storage,
@@ -24,11 +24,34 @@ export class ProviderService {
 
   }
 
-
   GetListaEventos(): Array<Evento> {
-    return this.listaEventos; 
+    return this.listaEventos;
   }
 
+  Addevento(evento: Evento) {
+    if (evento.cod == 0){
+      evento.cod = this.listaEventos.length+1;
+    }
+    this.listaEventos.push(evento);
+  }
+
+  DeleteEvento(evento: Evento){
+
+  }
+
+
+  GetEvento(cod: Number): Promise<Evento> {
+
+    return new Promise((resolve) => {
+      this.listaEventos.forEach(evento => {
+        if (evento.cod == cod) {
+          resolve(evento)
+        }
+      });
+      resolve(new Evento)
+    })
+
+  }
 
   GetChaveSetor(codSala: Number): Number {
     this.listaSala.forEach(element => {
@@ -57,9 +80,9 @@ export class ProviderService {
   }
 
   GetListaSalas(): Array<Sala> {
-    this.HTTP.get('https://viacep.com.br/ws/CE/Maracanau/rua/json/', {} ).subscribe(result =>{
-      console.log(result.json())
-    })   
+    this.HTTP.get('https://viacep.com.br/ws/CE/Maracanau/rua/json/', {}).subscribe(result => {
+      //console.log(result.json())
+    })
 
     return this.listaSala;
 

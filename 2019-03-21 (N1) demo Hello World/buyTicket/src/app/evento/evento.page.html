@@ -3,10 +3,10 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>Sala</ion-title>
+    <ion-title>Evento</ion-title>
   </ion-toolbar>
 </ion-header>
-
+ 
 <ion-content>
 
   <ion-item>
@@ -17,17 +17,19 @@
     <ion-label>Hora</ion-label>    
     <ion-label>Quantidade de ingressos</ion-label>
   </ion-item>
-  <ion-list *ngFor="let s of salas;">
-    <ion-item (click)="openEvento()">
-      <ion-label >{{s.codigo}}</ion-label> 
-      <ion-label >{{s.nome}}</ion-label>
-      <ion-label >{{s.descricao}}</ion-label>
-      <ion-label >{{s.capacidade}}</ion-label>
+  <ion-list *ngFor="let e of eventos">
+    <ion-item (click)="openEvento(e.cod)">
+      <ion-label >{{e.cod}}</ion-label> 
+      <ion-label >{{e.nome}}</ion-label>
+      <ion-label >{{e.descricao}}</ion-label>
+      <ion-label type="Date" >{{e.data}}</ion-label>
+      <ion-label >{{e.hora}}</ion-label>
+      <ion-label >{{e.qtd_ingresos}}</ion-label>
     </ion-item>
   </ion-list>
 
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button (click)="openEvento()">
+    <ion-fab-button (click)="openEvento(0)">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>
