@@ -1,4 +1,5 @@
 import { Time } from '@angular/common';
+import { StaticClassSansProvider } from '@angular/core/src/di/provider';
 
 const acao = ['add', 'update', 'delete', 'none']
 
@@ -57,16 +58,20 @@ export class Evento {
     nome: String
     descricao: String
     data: Date
+    hora: Date
     local: String
-    qtd_ingresos: Number    
+    qtd_ingresos: Number   
+    salas: Array<Sala> 
 
     constructor() {
         this.cod = 0
         this.nome = ''
         this.descricao = ''
         this.data = new Date();
+        this.hora = new Date();
         this.local = "";
         this.qtd_ingresos = 0;
+        this.salas = new Array<Sala>();
     }
 }
 

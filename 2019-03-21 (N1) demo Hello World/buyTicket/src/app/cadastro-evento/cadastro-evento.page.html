@@ -20,9 +20,9 @@
   </ion-item>
 
   <ion-item>
-    <ion-label position="stacked">Data:</ion-label>
-    <ion-input [(ngModel)]="evento.data" type="Date" #descricao="ngModel" name="data" value="{{evento.data}}">
-    </ion-input>
+    <ion-label position="stacked">Data/Horario:</ion-label>
+    <ion-input [(ngModel)]="evento.data" type="Date" #descricao="ngModel" name="data" value="{{evento.data}}"></ion-input>
+    <ion-input [(ngModel)]="evento.hora" type="Time" #descricao="ngModel" name="hora" value="{{evento.hora}}"></ion-input>
   </ion-item>
 
   <ion-item>
@@ -35,12 +35,10 @@
     <ion-input [(ngModel)]="evento.qtd_ingresos" #descricao="ngModel" name="qtd_ingresos"
       value="{{evento.qtd_ingresos}}"></ion-input>
   </ion-item>
+  <ion-label>Salas</ion-label>
   <ion-list>
-    <ion-item>
-      <ion-label>Salas</ion-label>
-      <ion-select multiple="true" cancelText="Cancelar" okText="Selecionar">
-        <ion-select-option *ngFor="let sala of salas">{{sala.nome + ' - ' + sala.descricao}}</ion-select-option>
-      </ion-select>
+    <ion-item *ngFor="let sala of evento.salas">{{sala.cod}} - {{sala.nome}}
+      <ion-button (click)="removerSala(sala)" >Remover Sala</ion-button>
     </ion-item>
   </ion-list>
   <!--
@@ -58,10 +56,9 @@
   <div text-center>
     <ion-grid align-items-center>
       <ion-row>
-        <!--<ion-col>
-          <ion-button fill="outline" (click)="adicionarSala()">Adicionar Sala</ion-button>
-
-        </ion-col>-->
+        <ion-col>
+          <ion-button fill="outline" (click)="presentActionSheet()">Adicionar Sala</ion-button>
+        </ion-col>
         <ion-col>
           <ion-button fill="outline" (click)="excluir()">Excluir Evento</ion-button>
         </ion-col>

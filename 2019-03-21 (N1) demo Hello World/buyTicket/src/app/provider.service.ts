@@ -29,14 +29,25 @@ export class ProviderService {
   }
 
   Addevento(evento: Evento) {
-    if (evento.cod == 0){
-      evento.cod = this.listaEventos.length+1;
+    if (evento.cod == 0) {
+      evento.cod = this.listaEventos.length + 1;
     }
     this.listaEventos.push(evento);
   }
 
-  DeleteEvento(evento: Evento){
+  DeleteEvento(evento: Evento) {
 
+  }
+
+  GetSalaNaoEventos(evento: Evento) :Array<Sala>{
+    let salas = new Array<Sala>();
+    
+    this.listaSala.forEach(sala => {   
+      if (evento.salas.indexOf(sala) < 0)   
+          salas.push(sala)
+
+    });
+    return salas
   }
 
 
