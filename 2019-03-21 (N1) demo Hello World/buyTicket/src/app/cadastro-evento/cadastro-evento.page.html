@@ -1,9 +1,74 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>cadastroEvento</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button [text]="buttonText">
+      </ion-back-button>
+    </ion-buttons>
+    <ion-title>Cadastro de evento</ion-title>
   </ion-toolbar>
 </ion-header>
-
 <ion-content>
+  <ion-item>
+    <ion-label position="stacked">Nome:</ion-label>
+    <ion-input [(ngModel)]="evento.nome" #nome="ngModel" name="nome" value="{{evento.nome}}"></ion-input>
+  </ion-item>
 
+  <ion-item>
+    <ion-label position="stacked">Descrição:</ion-label>
+    <ion-input [(ngModel)]="evento.descricao" #descricao="ngModel" name="descricao" value="{{evento.descricao}}">
+    </ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="stacked">Data:</ion-label>
+    <ion-input [(ngModel)]="evento.data" type="Date" #descricao="ngModel" name="data" value="{{evento.data}}">
+    </ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="stacked">local:</ion-label>
+    <ion-input [(ngModel)]="evento.local" #descricao="ngModel" name="local" value="{{evento.local}}"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="stacked">Quantidade de ingressos disponíveis:</ion-label>
+    <ion-input [(ngModel)]="evento.qtd_ingresos" #descricao="ngModel" name="qtd_ingresos"
+      value="{{evento.qtd_ingresos}}"></ion-input>
+  </ion-item>
+  <ion-list>
+    <ion-item>
+      <ion-label>Salas</ion-label>
+      <ion-select multiple="true" cancelText="Cancelar" okText="Selecionar">
+        <ion-select-option *ngFor="let sala of salas">{{sala.nome + ' - ' + sala.descricao}}</ion-select-option>
+      </ion-select>
+    </ion-item>
+  </ion-list>
+  <!--
+    <ion-item>
+    <ion-label position="center">Salas</ion-label>
+  </ion-item>
+  <ion-list *ngFor="let sala of evento.salas">
+    <ion-item (click)="editarSetor(setor)">
+      <ion-label>{{sala.nome}}</ion-label>
+      <ion-label>{{sala.descricao}}</ion-label>
+      <ion-label>{{sala.capacidade}</ion-label>
+    </ion-item>
+  </ion-list>
+  -->
+  <div text-center>
+    <ion-grid align-items-center>
+      <ion-row>
+        <!--<ion-col>
+          <ion-button fill="outline" (click)="adicionarSala()">Adicionar Sala</ion-button>
+
+        </ion-col>-->
+        <ion-col>
+          <ion-button fill="outline" (click)="excluir()">Excluir Evento</ion-button>
+        </ion-col>
+        <ion-col>
+          <ion-button fill="outline" (click)="salvar()">Salvar Evento</ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
 </ion-content>

@@ -1,58 +1,52 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Cadastro sala</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button text="{{acao}}">
+      </ion-back-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
-
-<ion-content >
-  <ion-item>
+<ion-content>
+  <!--
+    <ion-item>
     <ion-label position="fixed">Código:</ion-label>
-    <ion-input readonly>{{sala.codigo}}</ion-input>
+    <ion-input readonly [(ngModel)]="sala.codigo" #codigo="ngModel" name="codigo"></ion-input>
   </ion-item>
+  -->
 
   <ion-item>
     <ion-label position="stacked">Nome:</ion-label>
-    <ion-input value="{{sala.nome}}"></ion-input>
+    <ion-input [(ngModel)]="sala.nome" #nome="ngModel" name="nome" value="{{sala.nome}}"></ion-input>
   </ion-item>
 
   <ion-item>
     <ion-label position="stacked">Descrição:</ion-label>
-    <ion-input value="{{sala.descricao}}"></ion-input>
+    <ion-input [(ngModel)]="sala.descricao" #descricao="ngModel" name="descricao" value="{{sala.descricao}}"></ion-input>
   </ion-item>
+
+  <div text-center>
+    <ion-grid align-items-center>
+      <ion-row>
+        <ion-col>
+          <ion-button fill="outline" (click)="CriarSetor()">Adicionar setor</ion-button>
+        </ion-col>
+        <ion-col>
+          <ion-button fill="outline" (click)="excluir()">Excluir sala</ion-button>
+        </ion-col>
+        <ion-col>
+          <ion-button fill="outline" (click)="salvar()">Salvar sala</ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
   <ion-item>
-    <ion-label position="flating">Capacidade:</ion-label>
-    <ion-input type="number" value="{{sala.capacidade}}"></ion-input>
-    <!--
-      <ion-label position="flating">Colunas:</ion-label>
-    <ion-input type="number" value={{colunas}}></ion-input>
-    -->
-    <ion-button (click)="criarAcentos()" >Criar fileiras</ion-button>
+    <ion-label position="center">Setores</ion-label>
   </ion-item>
-
-
-
-  <ion-grid align-items-center>
-    <ion-row *ngFor="let fileira of setor;">
-      <ion-col *ngFor="let coluna of fileira;">
-
-      </ion-col>
-    </ion-row>
-  </ion-grid>
- 
-
-  <ion-fab vertical="bottom" horizontal="start" slot="fixed">
-    <ion-fab-button (click)="excluir()">
-      <ion-icon name="md-trash"></ion-icon>
-    </ion-fab-button>
-  </ion-fab>
-  <ion-fab vertical="bottom" horizontal="center" slot="fixed">
-    <ion-fab-button (click)="salvar()">
-      <ion-icon name="save"></ion-icon>
-    </ion-fab-button>
-  </ion-fab>
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button (click)="sair()">
-      <ion-icon name="exit"></ion-icon>
-    </ion-fab-button>
-  </ion-fab>
+  <ion-list *ngFor="let setor of sala.setores">
+    <ion-item (click)="editarSetor(setor)">
+      <ion-label>{{setor.nome}}</ion-label>
+      <ion-label>{{setor.descricao}}</ion-label>
+      <ion-label>{{setor.qtd_fileira}} x {{setor.qtd_colunas}}</ion-label>
+    </ion-item>
+  </ion-list>
 </ion-content>

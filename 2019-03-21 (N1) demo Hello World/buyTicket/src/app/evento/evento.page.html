@@ -3,62 +3,34 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>Cadastro de evento</ion-title>
+    <ion-title>Evento</ion-title>
   </ion-toolbar>
 </ion-header>
-
-<ion-content>
  
-<ion-content class="outer-content">
-<ion-list>
-  <ion-grid fixed>
-    <ion-row align-items-stretch>
-      <ion-col size="12" size-md="6">
-        <!--*ngFor="let speaker of speakers"-->
-        <ion-card class="speaker-card">
-          <ion-card-header>
-            <ion-item detail="false" lines="none">
-              <img class="imagem" src="../../assets/teste/elephant.jpg" alt="teste">
-            </ion-item>
-          </ion-card-header>
+<ion-content>
 
-          <ion-card-content>
-            <ion-list>
-              <ion-item>
-                <!--routerLink="/app/tabs/speakers/speaker-details/{{speaker.id}}"-->
-                <strong>Data: <br /></strong>
-                <ion-input placeholder="Insira a data do evento"></ion-input>
-              </ion-item>
-              <ion-item>
-                <!--*ngFor="let session of speaker.sessions" routerLink="/app/tabs/speakers/session/{{session.id}}"-->
-                <strong>Titulo: <br /></strong>
-                <ion-input placeholder="Insira o nome do evento"></ion-input>
-              </ion-item>
+  <ion-item>
+    <ion-label>Código</ion-label>
+    <ion-label>Nome evento</ion-label>
+    <ion-label>Descrição</ion-label>
+    <ion-label>Data</ion-label>    
+    <ion-label>Hora</ion-label>    
+    <ion-label>Quantidade de ingressos</ion-label>
+  </ion-item>
+  <ion-list *ngFor="let e of eventos">
+    <ion-item (click)="openEvento(e.cod)">
+      <ion-label >{{e.cod}}</ion-label> 
+      <ion-label >{{e.nome}}</ion-label>
+      <ion-label >{{e.descricao}}</ion-label>
+      <ion-label type="Date" >{{e.data}}</ion-label>
+      <ion-label >{{e.hora}}</ion-label>
+      <ion-label >{{e.qtd_ingresos}}</ion-label>
+    </ion-item>
+  </ion-list>
 
-              <ion-item>
-                <!--routerLink="/app/tabs/speakers/speaker-details/{{speaker.id}}"-->
-                <strong>Descrição: <br /></strong>
-                <ion-input placeholder="Descreva seu evento"></ion-input>
-              </ion-item>
-            </ion-list>
-          </ion-card-content>
-
-          <ion-row no-padding justify-content-center>
-            <ion-col text-left size="4">
-              <ion-button fill="clear" size="small" color="primary" (click)="goToSpeakerTwitter(speaker)">
-                Salvar
-              </ion-button>
-            </ion-col>
-          <ion-col text-right size="4">
-                <ion-button fill="clear" size="small" color="primary" (click)="goToSpeakerTwitter(speaker)">
-                 Cancelar
-                </ion-button>
-              </ion-col>
-            
-          </ion-row>
-        </ion-card>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-</ion-list>
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="openEvento(0)">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>

@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController, NavController } from '@ionic/angular';
 import { Sala } from '../configuracao';
-import { CadastroSalaPage } from '../cadastro-sala/cadastro-sala.page';
 import { ProviderService } from '../provider.service';
-import { providerDef } from '@angular/core/src/view';
 
 
 @Component({
@@ -29,13 +27,8 @@ export class SalaPage implements OnInit {
   ngOnInit() {
   }
 
-  async editarSala(codSala: number) {    
-    const modalCad = await this.modal.create({
-      component: CadastroSalaPage,
-      componentProps: { value: codSala }
-    }); 
-    await modalCad.present(); 
-   
+  editarSala(codSala: number) {       
+    this.NavCtrl.navigateForward('cadastro-sala/'+codSala)   
   }
 
 }

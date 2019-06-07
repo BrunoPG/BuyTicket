@@ -11,6 +11,6 @@ export class HomePage {
 
   }
   openEvento(){
-    this.navCtrl.navigateForward('evento')
+    this.navCtrl.navigateForward('cadastro-evento')
    }
 }

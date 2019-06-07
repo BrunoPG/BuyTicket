@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
-import { Sala } from '../../src/app/configuracao';
+import { Sala, Setor, Evento } from '../../src/app/configuracao';
+import { Http } from '@angular/http';
 
 @Injectable({
   providedIn: 'root'
@@ -11,27 +12,54 @@ export class ProviderService {
   C_PORTA = 'PORTA_CONFIG';
 
 
-  s: Sala = {
-    codigo: 10,
-    descricao: "sala maior",
-    nome: "sala 10",
-    capacidade: 20
-  }
-  s2: Sala = {
-    codigo: 15,
-    descricao: "sala menor",
-    nome: "sala 15",
-    capacidade: 5
-  }
-
   listaSala = new Array<Sala>()
+  listaEventos = new Array<Evento>()
 
   constructor(
-    public storage: Storage
+    public storage: Storage,
+    public HTTP: Http
   ) {
 
 
 
+  }
+
+  GetListaEventos(): Array<Evento> {
+    return this.listaEventos;
+  }
+
+  Addevento(evento: Evento) {
+    if (evento.cod == 0){
+      evento.cod = this.listaEventos.length+1;
+    }
+    this.listaEventos.push(evento);
+  }
+
+  DeleteEvento(evento: Evento){
+
+  }
+
+
+  GetEvento(cod: Number): Promise<Evento> {
+
+    return new Promise((resolve) => {
+      this.listaEventos.forEach(evento => {
+        if (evento.cod == cod) {
+          resolve(evento)
+        }
+      });
+      resolve(new Evento)
+    })
+
+  }
+
+  GetChaveSetor(codSala: Number): Number {
+    this.listaSala.forEach(element => {
+      if (element.codigo == codSala) {
+        return element.setores.length + 1
+      }
+    });
+    return 0;
   }
 
   SetServidorPorta(servidor: String, porta: number) {
@@ -52,31 +80,50 @@ export class ProviderService {
   }
 
   GetListaSalas(): Array<Sala> {
-    this.listaSala = new Array<Sala>();
-    this.listaSala.push(this.s)
-    this.listaSala.push(this.s2)
+    this.HTTP.get('https://viacep.com.br/ws/CE/Maracanau/rua/json/', {}).subscribe(result => {
+      //console.log(result.json())
+    })
 
     return this.listaSala;
+
+  }
+
+  GetSetor(codsala, codSetor: Number): Promise<Setor> {
+    return new Promise(
+      (resolve) => {
+        this.listaSala.forEach(s => {
+          if (s.codigo == codsala) {
+            s.setores.forEach(st => {
+              if (st.codigo == codSetor) {
+                resolve(st)
+              }
+            })
+          }
+        });
+        resolve(new Setor())
+      })
+  }
+
+  AddSala(sala: Sala) {
+    sala.codigo = this.listaSala.length + 1;
+    this.listaSala.push(sala)
+  }
+
+  ExcluirSala(s: Sala) {
+    let i = this.listaSala.indexOf(s)
+    this.listaSala.splice(i, 1)
   }
 
   GetSala(cod: number): Promise<Sala> {
     return new Promise(
-      (resolve, reject) => {
+      (resolve) => {
         this.listaSala.forEach(s => {
-          if (s.codigo = cod) {
+          if (s.codigo == cod) {
             resolve(s);
           }
         });
-        reject({
-          codigo: 0,
-          descricao: "",
-          nome: "",
-          capacidade: 0
-        })
+        resolve(new Sala())
       })
-
-
-
   }
 
 
