@@ -24,6 +24,11 @@
     <ion-input [(ngModel)]="sala.descricao" #descricao="ngModel" name="descricao" value="{{sala.descricao}}"></ion-input>
   </ion-item>
 
+  <ion-item>
+    <ion-label position="stacked">Capacidade:</ion-label>
+    <ion-input type="number" [(ngModel)]="sala.capacidade" #capacidade="ngModel" name="capacidade" value="{{sala.capacidade}}"></ion-input>
+  </ion-item>
+
   <div text-center>
     <ion-grid align-items-center>
       <ion-row>
@@ -39,14 +44,14 @@
       </ion-row>
     </ion-grid>
   </div>
-  <ion-item>
+   <ion-item>
     <ion-label position="center">Setores</ion-label>
   </ion-item>
-  <ion-list *ngFor="let setor of sala.setores">
+  <ion-list *ngFor="let setor of setores">
     <ion-item (click)="editarSetor(setor)">
       <ion-label>{{setor.nome}}</ion-label>
       <ion-label>{{setor.descricao}}</ion-label>
-      <ion-label>{{setor.qtd_fileira}} x {{setor.qtd_colunas}}</ion-label>
+      <ion-label>{{setor.qtd_fileira}} x {{setor.qtd_coluna}}</ion-label>
     </ion-item>
   </ion-list>
 </ion-content>

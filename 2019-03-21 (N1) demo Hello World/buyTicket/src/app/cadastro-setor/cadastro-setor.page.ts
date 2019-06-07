@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { NavParams, ModalController } from '@ionic/angular';
 import { Setor, Acento, Sala } from '../configuracao';
 import { ProviderService } from '../provider.service';
-import { LQueries_ } from '@angular/core/src/render3/query';
 
 @Component({
   selector: 'app-cadastro-setor',
@@ -31,10 +30,10 @@ export class CadastroSetorPage implements OnInit {
         this.setor = new Setor()
         this.setor.nome = s.nome;
         this.setor.descricao = s.descricao
-        this.setor.qtd_colunas = s.qtd_colunas
+        this.setor.qtd_coluna = s.qtd_coluna
         this.setor.qtd_fileira = s.qtd_fileira
-        this.setor.codigo = s.codigo
-        this.setor.acentos = s.acentos
+        this.setor.id = s.id
+        //this.setor.acentos = s.acentos
       } else {
         this.setor = new Setor()
       }
@@ -78,12 +77,12 @@ export class CadastroSetorPage implements OnInit {
 
   definirAcentos() {
 
-    if (this.setor.qtd_fileira > 0 && this.setor.qtd_colunas > 0) {
-      this.setor.acentos = [];
+    if (this.setor.qtd_fileira > 0 && this.setor.qtd_coluna > 0) {
+      //this.setor.acentos = [];
       let row = 0
 
       let tamFil = this.setor.qtd_fileira as number;
-      let tamCol = this.setor.qtd_colunas as number;
+      let tamCol = this.setor.qtd_coluna as number;
       while (row < tamFil) {
         let ac = Array<Acento>(tamCol)
         let i = 0;
@@ -95,7 +94,7 @@ export class CadastroSetorPage implements OnInit {
           ac[i].ativo = true;
           i++
         }
-        this.setor.acentos.push(ac);
+        //this.setor.acentos.push(ac);
         row++;
       }
     }

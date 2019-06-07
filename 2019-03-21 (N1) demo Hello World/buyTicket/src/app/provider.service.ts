@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { Sala, Setor, Evento } from '../../src/app/configuracao';
-import { Http } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +17,7 @@ export class ProviderService {
 
   constructor(
     public storage: Storage,
-    public HTTP: Http
+    public HTTP: HttpClient
   ) {
 
 
@@ -39,12 +39,12 @@ export class ProviderService {
 
   }
 
-  GetSalaNaoEventos(evento: Evento) :Array<Sala>{
+  GetSalaNaoEventos(evento: Evento): Array<Sala> {
     let salas = new Array<Sala>();
-    
-    this.listaSala.forEach(sala => {   
-      if (evento.salas.indexOf(sala) < 0)   
-          salas.push(sala)
+
+    this.listaSala.forEach(sala => {
+      if (evento.salas.indexOf(sala) < 0)
+        salas.push(sala)
 
     });
     return salas
@@ -65,11 +65,11 @@ export class ProviderService {
   }
 
   GetChaveSetor(codSala: Number): Number {
-    this.listaSala.forEach(element => {
-      if (element.codigo == codSala) {
-        return element.setores.length + 1
-      }
-    });
+    // this.listaSala.forEach(element => {
+    //   if (element.id == codSala) {
+    //     return element.setores.length + 1
+    //   }
+    // });
     return 0;
   }
 
@@ -90,34 +90,63 @@ export class ProviderService {
     });
   }
 
-  GetListaSalas(): Array<Sala> {
-    this.HTTP.get('https://viacep.com.br/ws/CE/Maracanau/rua/json/', {}).subscribe(result => {
-      //console.log(result.json())
-    })
+  GetListaSalas() {
 
-    return this.listaSala;
+    return new Promise(resolve => {
+      this.HTTP.get("http://10.13.2.210:3456/sala/all", {}).subscribe(result => {
+        resolve(result);
+      }, erro => {
+        console.log(erro)
+      });
+
+
+    })
 
   }
 
   GetSetor(codsala, codSetor: Number): Promise<Setor> {
     return new Promise(
       (resolve) => {
-        this.listaSala.forEach(s => {
-          if (s.codigo == codsala) {
-            s.setores.forEach(st => {
-              if (st.codigo == codSetor) {
-                resolve(st)
-              }
-            })
-          }
-        });
+        // this.listaSala.forEach(s => {
+        //   if (s.id == codsala) {
+        //     s.setores.forEach(st => {
+        //       if (st.codigo == codSetor) {
+        //         resolve(st)
+        //       }
+        //     })
+        //   }
+        // });
         resolve(new Setor())
       })
   }
 
-  AddSala(sala: Sala) {
-    sala.codigo = this.listaSala.length + 1;
-    this.listaSala.push(sala)
+  GetSetores(codsala: Number): Promise<Array<Setor>> {
+    return new Promise(
+      (resolve) => {        
+        this.HTTP.get("http://10.13.2.210:3456/setor/sala/" + codsala, {}).subscribe((result: any) => {
+          if (result.erro == null)
+             resolve(result.setores)
+          else
+          console.log('Erro:', result.erro)    
+        }, erro => {
+          console.log('Erro:', erro.erro)
+        });
+      })
+  }
+
+
+  SalvarSala(sala: Sala): Promise<Sala>{
+    return new Promise(
+      (resolve) => {                
+        this.HTTP.post("http://10.13.2.210:3456/sala/save", sala).subscribe((result: any) => {
+          if (result.sala != null)
+             resolve(result.sala)
+          else
+            console.log('Erro:', result.erro)    
+        }, erro => {
+            console.log('Erro:', erro.erro)
+        });
+      })
   }
 
   ExcluirSala(s: Sala) {
@@ -128,12 +157,14 @@ export class ProviderService {
   GetSala(cod: number): Promise<Sala> {
     return new Promise(
       (resolve) => {
-        this.listaSala.forEach(s => {
-          if (s.codigo == cod) {
-            resolve(s);
-          }
+        this.HTTP.get("http://10.13.2.210:3456/sala/" + cod, {}).subscribe((result: any) => {
+          if (result.erro == null)
+             resolve(result.sala)
+          else
+          console.log('Erro:', result.erro)    
+        }, erro => {
+          console.log('Erro:', erro.erro)
         });
-        resolve(new Sala())
       })
   }
 

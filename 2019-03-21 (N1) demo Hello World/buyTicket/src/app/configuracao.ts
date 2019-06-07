@@ -10,36 +10,37 @@ export interface Configuracao {
 }
 
 export class Sala {
-    codigo: Number
+    id: Number
     nome: String
     descricao: String
     capacidade: Number
-    setores: Array<Setor>;
+    //setores: Array<Setor>;
 
     constructor() {
 
-        this.codigo = 0
+        this.id = 0
         this.nome = ""
         this.descricao = ""
-        this.setores = new Array<Setor>();
+        //this.setores = new Array<Setor>();
     }
 }
 
 export class Setor {
-    codigo: Number
+    id: Number
     nome: String
     descricao: String
     qtd_fileira: Number
-    qtd_colunas: Number
-    acentos: Array<Array<Acento>>;
+    qtd_coluna: Number
+    sala_id: Number
+    //acentos: Array<Array<Acento>>;
 
     constructor() {
-        this.codigo = 0
+        this.id = 0
         this.nome = ''
         this.descricao = ''
         this.qtd_fileira = 0
-        this.qtd_colunas = 0
-        this.acentos = new Array<Array<Acento>>();
+        this.qtd_coluna = 0
+        //this.acentos = new Array<Array<Acento>>();
     }
 
 
