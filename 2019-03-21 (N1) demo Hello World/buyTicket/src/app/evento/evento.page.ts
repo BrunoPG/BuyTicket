@@ -30,7 +30,7 @@ export class EventoPage implements OnInit {
       component: CadastroEventoPage,
       componentProps: { evento: cod }
     });
-
+ 
     await modalEvento.present();
   }
 

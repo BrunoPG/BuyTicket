@@ -10,17 +10,17 @@
 <ion-content>
 
   <ion-item>
-    <ion-label>Código</ion-label>
+    <!-- <ion-label>Código</ion-label> -->
     <ion-label>Nome sala</ion-label>
     <ion-label>Descrição</ion-label>
-    <ion-label>Setores</ion-label>
+    <ion-label>Capacidade</ion-label>
   </ion-item>
   <ion-list *ngFor="let s of salas">
-    <ion-item (click)="editarSala(s.codigo)">
-      <ion-label >{{s.codigo}}</ion-label> 
+    <ion-item (click)="editarSala(s.id)">
+      <!-- <ion-label >{{s.id}}</ion-label>  -->
       <ion-label >{{s.nome}}</ion-label>
       <ion-label >{{s.descricao}}</ion-label>
-      <ion-label >{{s.setores.length}}</ion-label>      
+      <ion-label >{{s.capacidade}}</ion-label>      
     </ion-item>
   </ion-list>
 

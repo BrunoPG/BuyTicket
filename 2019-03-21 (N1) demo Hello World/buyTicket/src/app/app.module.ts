@@ -12,6 +12,7 @@ import { CadastroSalaPageModule } from './cadastro-sala/cadastro-sala.module';
 import { CadastroSetorPageModule } from './cadastro-setor/cadastro-setor.module';
 import { HttpModule } from '@angular/http';
 import { CadastroEventoPageModule } from './cadastro-evento/cadastro-evento.module';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [AppComponent],
@@ -24,7 +25,8 @@ import { CadastroEventoPageModule } from './cadastro-evento/cadastro-evento.modu
     CadastroSalaPageModule,
     CadastroSetorPageModule,
     CadastroEventoPageModule,
-    HttpModule
+    HttpModule,
+    HttpClientModule
   ],
   providers: [
     StatusBar,
