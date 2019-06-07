@@ -30,7 +30,7 @@ const routes = (server) => {
     next()
   })
 
-  server.post('usuario', async (req, res, next) => {
+  server.post('user/save', async (req, res, next) => {
     const user = req.body
     try {
       res.send(await db.users().save(user))
@@ -64,11 +64,9 @@ const routes = (server) => {
 
   server.post('evento', async (req, res, next) => {
     const evento = req.body
-    console.log(evento);
     try {
       res.send(await db.evento().save(evento))
     } catch (error) {
-      console.log(error)
       res.send(error)
     }
     next()
@@ -93,9 +91,9 @@ const routes = (server) => {
     next()
   })
 
-  server.get('/setorbysalaid/:id', async (req, res, next) => {
+  server.get('setor/sala/:sala_id', async (req, res, next) => {
     try {
-      res.send(await db.setor().allByEvento(req.params.id))
+      res.send(await db.setor().getSetoresBySalaId(req.params.sala_id))
     } catch (error) {
       res.send(error)
     }
@@ -115,6 +113,35 @@ const routes = (server) => {
   server.get('setor/all', async (req, res, next) => {
     try {
       res.send(await db.setor().all())
+    } catch (error) {
+      res.send(error)
+    }
+    next()
+  })
+
+  server.get('sala/all', async (req, res, next) => {
+    try {
+      res.send(await db.sala().all())
+    } catch (error) {
+      res.send(error)
+    }
+    next()
+  })
+
+  server.get('sala/:id', async (req, res, next) => {
+    try {
+      res.send(await db.sala().getById(req.params.id))
+    } catch (error) {
+      console.log(error);
+      res.send(error)
+    }
+    next()
+  })
+
+  server.post('sala/save', async (req, res, next) => {
+    const sala = req.body
+    try {
+      res.send(await db.sala().save(sala))
     } catch (error) {
       res.send(error)
     }

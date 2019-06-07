@@ -7,7 +7,7 @@ const users = deps => {
       return new Promise((resolve, reject) => {
         const { connection, errorHandler } = deps
 
-        connection.query('SELECT * FROM usuario WHERE email = ? LIMIT 1', [email], (error, results) => {
+        connection.query('SELECT * FROM user WHERE email = ? LIMIT 1', [email], (error, results) => {
           if (error) {
             errorHandler(error, 'Falha ao achar as usuários', reject)
 
@@ -21,7 +21,7 @@ const users = deps => {
       return new Promise((resolve, reject) => {
         const { connection, errorHandler } = deps
 
-        connection.query('SELECT id, email FROM usuario', (error, results) => {
+        connection.query('SELECT id, email, nome FROM user', (error, results) => {
           if (error) {
             errorHandler(error, 'Falha ao listar as usuários', reject)
             return false
@@ -33,7 +33,7 @@ const users = deps => {
     save: (user) => {
       return new Promise((resolve, reject) => {
         const { connection, errorHandler } = deps
-        connection.query('INSERT INTO usuario (email, password) VALUES (?, ?)', [user.user.email, sha1(user.user.password)], (error, results) => {
+        connection.query('INSERT INTO user (nome, email) VALUES (?, ?)', [user.nome, user.email], (error, results) => {
           if (error) {
             errorHandler(error, `Falha ao salvar a usuário ${user.email}`, reject)
             return false

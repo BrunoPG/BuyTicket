@@ -18,7 +18,7 @@ const sala = deps => {
     save: (sala) => {
       return new Promise((resolve, reject) => {
         const { connection, errorHandler } = deps
-        connection.query('INSERT INTO sala (nome, descricao, capacidade, fk_evento) VALUES (?,?,?,?)', [sala.nome,  sala.descricao, ,sala.capacidade, sala.sala_id], (error, results) => {
+        connection.query('INSERT INTO sala (nome, descricao, capacidade) VALUES (?,?,?)', [sala.nome,  sala.descricao, sala.capacidade], (error, results) => {
           if (error) {
             console.log(error)
             errorHandler(error, `Falha ao salvar o sala ${sala.nome}`, reject)
@@ -56,13 +56,14 @@ const sala = deps => {
       return new Promise((resolve, reject) => {
         const { connection, errorHandler } = deps
 
-        connection.query('SELECT * FROM sala WHERE id = ?', [id], (error, results) => {
-          if (error || !results.affectedRows) {
-            errorHandler(error, `Falha ao pegar o sala de id ${id}`, reject)
-            return false
-          }
-          resolve({ sala: results.all, affectedRows: results.affectedRows })
-        })
+          connection.query('SELECT * FROM sala WHERE id = ?  LIMIT 1', [id], (error, results) => {
+            if (error) {
+              errorHandler(error, 'Falha ao listar os sala', reject)
+              return false
+            }
+            resolve({ sala: results[0] })
+          })
+        
       })
     }
   }

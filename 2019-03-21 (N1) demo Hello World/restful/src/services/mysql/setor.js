@@ -7,7 +7,6 @@ const setor = deps => {
 
         connection.query('SELECT * FROM setor', (error, results) => {
           if (error) {
-            console.log(error)
             errorHandler(error, 'Falha ao listar os setor', reject)
             return false
           }
@@ -18,9 +17,8 @@ const setor = deps => {
     save: (setor) => {
       return new Promise((resolve, reject) => {
         const { connection, errorHandler } = deps
-        connection.query('INSERT INTO setor (nome, descricao, qtd_fileira, qtd_coluna) VALUES (?, ?, ?, ?)', [setor.nome,  setor.descricao, setor.qtd_fileira, setor.qtd_coluna], (error, results) => {
+        connection.query('INSERT INTO setor (nome, descricao, qtd_fileira, qtd_coluna, sala_id) VALUES (?, ?, ?, ?, ?)', [setor.nome,  setor.descricao, setor.qtd_fileira, setor.qtd_coluna, id], (error, results) => {
           if (error) {
-            console.log(error)
             errorHandler(error, `Falha ao salvar o setor ${setor.nome}`, reject)
             return false
           }
@@ -63,6 +61,19 @@ const setor = deps => {
             return false
           }
           resolve({ setor: results.all, affectedRows: results.affectedRows })
+        })
+      })
+    },
+    getSetoresBySalaId: (sala_id) => {
+      return new Promise((resolve, reject) => {
+        const { connection, errorHandler } = deps
+
+        connection.query('SELECT * FROM setor WHERE sala_id = ?', [sala_id], (error, results) => {
+          if (error) {
+            errorHandler(error, 'Falha ao listar os setor', reject)
+            return false
+          }
+          resolve({ setores: results })
         })
       })
     }

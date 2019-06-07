@@ -19,11 +19,13 @@ const setorModule = require('./setor')({ connection, errorHandler })
 const gastoModule = require('./gasto')({ connection, errorHandler })
 const usersModule = require('./users')({ connection, errorHandler })
 const authModule = require('./auth')({ connection, errorHandler })
+const salaModule = require('./sala')({ connection, errorHandler })
 
 module.exports = {
   gasto: () => gastoModule,
   evento: () => eventoModule,
   users: () => usersModule,
   auth: () => authModule,
-  setor: () => setorModule
+  setor: () => setorModule,
+  sala: () => salaModule
 }
