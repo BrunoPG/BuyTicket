@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
 })
 export class ConfiguracoesPage implements OnInit {
 
-  config: Configuracao = { servidor: '', porta: 0 };
+  config: Configuracao = { servidor: '', porta: '' };
   submitted = false;
   constructor(
     public provider: ProviderService,

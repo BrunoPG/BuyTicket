@@ -11,6 +11,8 @@ export class ProviderService {
   C_SERVIDOR = 'SERV_CONFIG';
   C_PORTA = 'PORTA_CONFIG';
 
+  SERVIDOR: string
+  PORTA: string;
 
   listaSala = new Array<Sala>()
   listaEventos = new Array<Evento>()
@@ -20,7 +22,15 @@ export class ProviderService {
     public HTTP: HttpClient
   ) {
 
+    this.GetServidor().then(serv=>{
+      this.SERVIDOR = serv;
+    }).catch(()=>{
+      this.SERVIDOR = "";
+    })
 
+    this.GetPorta().then(p =>{
+      this.PORTA = p;
+    })
 
   }
 
@@ -73,7 +83,7 @@ export class ProviderService {
     return 0;
   }
 
-  SetServidorPorta(servidor: String, porta: number) {
+  SetServidorPorta(servidor: String, porta: string) {
     this.storage.set(this.C_SERVIDOR, servidor);
     this.storage.set(this.C_PORTA, porta);
   }
@@ -84,7 +94,7 @@ export class ProviderService {
     });
   }
 
-  GetPorta(): Promise<number> {
+  GetPorta(): Promise<string> {
     return this.storage.get(this.C_PORTA).then((port) => {
       return port;
     });
@@ -93,7 +103,7 @@ export class ProviderService {
   GetListaSalas() {
 
     return new Promise(resolve => {
-      this.HTTP.get("http://10.13.2.210:3456/sala/all", {}).subscribe(result => {
+      this.HTTP.get("http://"+this.SERVIDOR+":"+this.PORTA+"/sala/all", {}).subscribe(result => {
         resolve(result);
       }, erro => {
         console.log(erro)
@@ -123,7 +133,7 @@ export class ProviderService {
   GetSetores(codsala: Number): Promise<Array<Setor>> {
     return new Promise(
       (resolve) => {        
-        this.HTTP.get("http://10.13.2.210:3456/setor/sala/" + codsala, {}).subscribe((result: any) => {
+        this.HTTP.get("http://"+this.SERVIDOR+":"+this.PORTA+"/setor/sala/" + codsala, {}).subscribe((result: any) => {
           if (result.erro == null)
              resolve(result.setores)
           else
@@ -138,7 +148,7 @@ export class ProviderService {
   SalvarSala(sala: Sala): Promise<Sala>{
     return new Promise(
       (resolve) => {                
-        this.HTTP.post("http://10.13.2.210:3456/sala/save", sala).subscribe((result: any) => {
+        this.HTTP.post("http://"+this.SERVIDOR+":"+this.PORTA+"/sala/save", sala).subscribe((result: any) => {
           if (result.sala != null)
              resolve(result.sala)
           else
@@ -150,14 +160,17 @@ export class ProviderService {
   }
 
   ExcluirSala(s: Sala) {
-    let i = this.listaSala.indexOf(s)
-    this.listaSala.splice(i, 1)
+    this.HTTP.delete("http://"+this.SERVIDOR+":"+this.PORTA+"/sala/"+s.id).subscribe((result: any) => {
+      console.log(result)
+        }, erro => {
+            console.log('Erro:', erro.erro)
+        });
   }
 
   GetSala(cod: number): Promise<Sala> {
     return new Promise(
       (resolve) => {
-        this.HTTP.get("http://10.13.2.210:3456/sala/" + cod, {}).subscribe((result: any) => {
+        this.HTTP.get("http://"+this.SERVIDOR+":"+this.PORTA+"/sala/" + cod, {}).subscribe((result: any) => {
           if (result.erro == null)
              resolve(result.sala)
           else

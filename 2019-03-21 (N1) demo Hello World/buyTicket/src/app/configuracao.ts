@@ -6,7 +6,7 @@ const acao = ['add', 'update', 'delete', 'none']
 export interface Configuracao {
 
     servidor: String;
-    porta: number;
+    porta: string;
 }
 
 export class Sala {
