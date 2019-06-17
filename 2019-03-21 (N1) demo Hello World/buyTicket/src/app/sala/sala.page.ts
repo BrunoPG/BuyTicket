@@ -22,19 +22,22 @@ export class SalaPage implements OnInit {
     public provider: ProviderService) {
 
   }
-
+  
   ngOnInit() {
-    console.log("passou aqui")
+    
+  }
+
+  editarSala(codSala: number) { 
+    this.NavCtrl.navigateForward('cadastro-sala/' + codSala)
+  }
+
+  ionViewDidEnter(){
+   
     this.salas = [];
     this.provider.GetListaSalas().then((data: any) => {
       this.salas = data.salas;
     });
   }
-
-  editarSala(codSala: number) {
-    this.NavCtrl.navigateForward('cadastro-sala/' + codSala)
-  }
-
   
 
 }

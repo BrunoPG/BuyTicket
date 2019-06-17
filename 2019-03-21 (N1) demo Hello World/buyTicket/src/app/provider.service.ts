@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { Sala, Setor, Evento } from '../../src/app/configuracao';
 import { HttpClient } from '@angular/common/http';
+import { reject } from 'q';
 
 @Injectable({
   providedIn: 'root'
@@ -22,13 +23,13 @@ export class ProviderService {
     public HTTP: HttpClient
   ) {
 
-    this.GetServidor().then(serv=>{
+    this.GetServidor().then(serv => {
       this.SERVIDOR = serv;
-    }).catch(()=>{
+    }).catch(() => {
       this.SERVIDOR = "";
     })
 
-    this.GetPorta().then(p =>{
+    this.GetPorta().then(p => {
       this.PORTA = p;
     })
 
@@ -103,7 +104,7 @@ export class ProviderService {
   GetListaSalas() {
 
     return new Promise(resolve => {
-      this.HTTP.get("http://"+this.SERVIDOR+":"+this.PORTA+"/sala/all", {}).subscribe(result => {
+      this.HTTP.get("http://" + this.SERVIDOR + ":" + this.PORTA + "/sala/all", {}).subscribe(result => {
         resolve(result);
       }, erro => {
         console.log(erro)
@@ -114,69 +115,104 @@ export class ProviderService {
 
   }
 
-  GetSetor(codsala, codSetor: Number): Promise<Setor> {
+  GetSetor(setor: Number): Promise<Setor> {
     return new Promise(
       (resolve) => {
-        // this.listaSala.forEach(s => {
-        //   if (s.id == codsala) {
-        //     s.setores.forEach(st => {
-        //       if (st.codigo == codSetor) {
-        //         resolve(st)
-        //       }
-        //     })
-        //   }
-        // });
-        resolve(new Setor())
-      })
-  }
-
-  GetSetores(codsala: Number): Promise<Array<Setor>> {
-    return new Promise(
-      (resolve) => {        
-        this.HTTP.get("http://"+this.SERVIDOR+":"+this.PORTA+"/setor/sala/" + codsala, {}).subscribe((result: any) => {
-          if (result.erro == null)
-             resolve(result.setores)
-          else
-          console.log('Erro:', result.erro)    
+        this.HTTP.get("http://" + this.SERVIDOR + ":" + this.PORTA + "/setor/" + setor, {}).subscribe((result: any) => {
+          resolve(result.setor)
         }, erro => {
-          console.log('Erro:', erro.erro)
+          reject(erro.erro)
         });
       })
   }
 
-
-  SalvarSala(sala: Sala): Promise<Sala>{
+  GetSetoresSala(codsala: Number): Promise<Array<Setor>> {
     return new Promise(
-      (resolve) => {                
-        this.HTTP.post("http://"+this.SERVIDOR+":"+this.PORTA+"/sala/save", sala).subscribe((result: any) => {
-          if (result.sala != null)
-             resolve(result.sala)
-          else
-            console.log('Erro:', result.erro)    
+      (resolve) => {
+        this.HTTP.get("http://" + this.SERVIDOR + ":" + this.PORTA + "/setor/sala/" + codsala, {}).subscribe((result: any) => {
+          if (result.erro != null)
+            reject(result.erro)
+          else {
+            if (result.setores == []) {
+              resolve(new Array<Setor>());
+            } else
+              resolve(result.setores)
+          }
         }, erro => {
-            console.log('Erro:', erro.erro)
+          reject(erro.erro)
+        });
+      })
+  }
+
+  SalvarSetor(setor): Promise<Setor> {
+    return new Promise(
+      (resolve) => {
+        this.HTTP.post("http://" + this.SERVIDOR + ":" + this.PORTA + "/setor", setor).subscribe((result: any) => {
+          if (result.setor != null)
+            resolve(result.setor)
+          else
+            resolve(result.erro)
+        }, erro => {
+          resolve(erro.erro)
+        });
+      })
+  }
+
+  EditarSetor(setor): Promise<Setor> {
+    return new Promise(
+      (resolve) => {
+        this.HTTP.put("http://" + this.SERVIDOR + ":" + this.PORTA + "/setor", setor).subscribe((result: any) => {
+          if (result.setor != null)
+            resolve(result.setor)
+          else
+            resolve(result.erro)
+        }, erro => {
+          reject(erro.erro)
+        });
+      })
+  }
+
+  ExcluirSetor(id_setor) {
+    this.HTTP.delete("http://" + this.SERVIDOR + ":" + this.PORTA + "/setor/" + id_setor).subscribe((result: any) => {
+      console.log(result)
+    }, erro => {
+      console.log('Erro:', erro.erro)
+    });
+  }
+
+
+  SalvarSala(sala: Sala): Promise<Sala> {
+    return new Promise(
+      (resolve) => {
+        this.HTTP.post("http://" + this.SERVIDOR + ":" + this.PORTA + "/sala", sala).subscribe((result: any) => {
+          if (result.sala != null)
+            resolve(result.sala)
+          else
+            console.log('Erro:', result.erro)
+        }, erro => {
+          console.log('Erro:', erro.erro)
         });
       })
   }
 
   ExcluirSala(s: Sala) {
-    this.HTTP.delete("http://"+this.SERVIDOR+":"+this.PORTA+"/sala/"+s.id).subscribe((result: any) => {
+    this.HTTP.delete("http://" + this.SERVIDOR + ":" + this.PORTA + "/sala/" + s.id).subscribe((result: any) => {
       console.log(result)
-        }, erro => {
-            console.log('Erro:', erro.erro)
-        });
+    }, erro => {
+      console.log('Erro:', erro.erro)
+    });
   }
 
   GetSala(cod: number): Promise<Sala> {
     return new Promise(
       (resolve) => {
-        this.HTTP.get("http://"+this.SERVIDOR+":"+this.PORTA+"/sala/" + cod, {}).subscribe((result: any) => {
+        this.HTTP.get("http://" + this.SERVIDOR + ":" + this.PORTA + "/sala/" + cod, {}).subscribe((result: any) => {
           if (result.erro == null)
-             resolve(result.sala)
+            resolve(result.sala)
           else
-          console.log('Erro:', result.erro)    
+            reject(result.erro)
         }, erro => {
-          console.log('Erro:', erro.erro)
+          reject(erro.erro)
         });
       })
   }

@@ -27,38 +27,42 @@ export class CadastroSalaPage implements OnInit {
     private activatedRoute: ActivatedRoute,
     public modal: ModalController,
     public router: Router) {
-    let id: any;
-    id = this.activatedRoute.snapshot.paramMap.get('id')
-    this.sala = new Sala();
     this.setores = new Array<Setor>();
-    if (id == 0) {      
-      this.acao = "Criar sala"
-      this.sala = new Sala()
-    } else {
-      
-      this.provider.GetSala(Number(id)).then(sala => {
-        console.log(sala)
-        this.sala = sala;
-        this.provider.GetSetores(this.sala.id).then((setores: any )=>{
-          this.setores = setores
-          console.log(setores)
-        })
-      }).catch(() => {
-        this.sala = new Sala()
-      });
-      this.acao = "Editando sala"
-    }
-
+    this.sala = new Sala();
 
   }
 
   ngOnInit() {
+
+    let id: any;
+    id = this.activatedRoute.snapshot.paramMap.get('id')
+    // this.sala = new Sala();
+    // this.setores = new Array<Setor>();
+    if (id == 0) {
+      this.acao = "Criar sala"
+      this.sala = new Sala();
+    } else {
+
+      this.provider.GetSala(Number(id)).then(sala => {
+        this.sala = sala;
+        this.provider.GetSetoresSala(this.sala.id).then((setores: any) => {
+          this.setores = setores
+        }).catch(erro => {
+          alert("Erro abrir setores: " + erro)
+        })
+      }).catch((erro) => {
+        alert("Erro abrir sala: " + erro)
+        this.sala = new Sala()
+      });
+      this.acao = "Editando sala"
+    }
+    
   }
 
   salvar() {
     if (this.sala.id == 0)
-      this.provider.SalvarSala(this.sala).then((sala: any)=>{
-        alert("Sala salva com sucesso"+sala.nome);
+      this.provider.SalvarSala(this.sala).then((sala: any) => {
+        alert("Sala " + sala.nome + " salva com sucesso");
       });
     this.navCtrl.back();
   }
@@ -77,44 +81,59 @@ export class CadastroSalaPage implements OnInit {
       const modalCad = await this.modal.create({
         component: CadastroSetorPage,
         componentProps: { setor: setor.id, sala: this.sala.id }
-      });
-      modalCad.onDidDismiss().then((detail: OverlayEventDetail) => {
-        // if (detail.data.acao == 2) {
-        //   let indx = this.sala.setores.indexOf(setor);
-        //   this.sala.setores.splice(indx, 1)
-        // } else if (detail.data.acao == 1) {
-        //   setor = detail.data.obj;
-        // }
-
-      });
+      });      
       await modalCad.present();
     }
   }
 
 
   async CriarSetor() {
-    this.salvar();
-    const modalCad = await this.modal.create({
-      component: CadastroSetorPage,
-      componentProps: { setor: 0, sala: this.sala.id }
-    });
-    modalCad.onDidDismiss().then((detail: OverlayEventDetail) => {
+    if (this.sala.id == 0) {
+      this.provider.SalvarSala(this.sala).then(async (sala: any) => {
+        alert("Sala " + sala.nome + " salva com sucesso!");
+        this.sala.id = sala.id;
 
-      // if (detail.data.acao == 0) {
-      //   let novoSetor: Setor
-      //   novoSetor = detail.data.obj
-      //   let newCod = this.provider.GetChaveSetor(this.sala.id)
-      //   if (newCod == 0) {
-      //     //newCod = this.sala.setores.length + 1
-      //   }
-      //   novoSetor.id = newCod;
-      //   //this.sala.setores.push(novoSetor);
-      // }
-    });
+        const modalCad = await this.modal.create({
+          component: CadastroSetorPage,
+          componentProps: { setor: 0, sala: this.sala.id }
+        });        
+        await modalCad.present();
+      });
+    } else {
+      const modalCad = await this.modal.create({
+        component: CadastroSetorPage,
+        componentProps: { setor: 0, sala: this.sala.id }
+      });      
+      await modalCad.present();
+    }
 
-    await modalCad.present();
   }
 
+
+  ionViewDidEnter() {
+    let id: any;
+    id = this.activatedRoute.snapshot.paramMap.get('id')
+    // this.sala = new Sala();
+    // this.setores = new Array<Setor>();
+    if (id == 0) {
+      this.acao = "Criar sala"
+      this.sala = new Sala();
+    } else {
+
+      this.provider.GetSala(Number(id)).then(sala => {
+        this.sala = sala;
+        this.provider.GetSetoresSala(this.sala.id).then((setores: any) => {
+          this.setores = setores
+        }).catch(erro => {
+          alert("Erro abrir setores: " + erro)
+        })
+      }).catch((erro) => {
+        alert("Erro abrir sala: " + erro)
+        this.sala = new Sala()
+      });
+      this.acao = "Editando sala"
+    }
+  }
 
 
 }

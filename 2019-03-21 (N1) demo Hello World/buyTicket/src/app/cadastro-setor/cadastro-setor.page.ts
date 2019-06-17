@@ -18,61 +18,57 @@ export class CadastroSetorPage implements OnInit {
     public provider: ProviderService
   ) {
 
+    this.setor = new Setor();
   }
 
   ngOnInit() {
 
     let l_sala = this.navParams.get('sala');
     let l_setor = this.navParams.get('setor');
-    
-    this.provider.GetSetor(l_sala, l_setor).then(s => {
-      if (s != null) {
-        this.setor = new Setor()
-        this.setor.nome = s.nome;
-        this.setor.descricao = s.descricao
-        this.setor.qtd_coluna = s.qtd_coluna
-        this.setor.qtd_fileira = s.qtd_fileira
-        this.setor.id = s.id
-        //this.setor.acentos = s.acentos
-      } else {
-        this.setor = new Setor()
-      }
-    })
+    console.log(l_setor)
+    if (l_setor > 0) {
+      this.provider.GetSetor(l_setor).then(s => {
+        this.setor = s;
+      })
+    } else {
+      this.setor = new Setor()
+      this.setor.sala_id = l_sala;
+    }
 
   }
 
   async excluir() {
-    let acao: any = {
-      acao: 2,
-      obj: this.setor
-    }
-    await this.modalController.dismiss(acao);
+    if (this.setor.id > 0)
+      this.provider.ExcluirSetor(this.setor.id)
+    await this.modalController.dismiss();
 
   }
 
 
   async salvar() {
-    let acao: any = {
-      acao: 0,
-      obj: this.setor
+    if (this.setor.id == 0) {
+      this.provider.SalvarSetor(this.setor).then(setor => {
+        alert("Setor " + setor.nome + " salvo com sucesso!");
+      }).catch((erro) => {
+        alert("Erro ao salvar setor: " + erro);
+      })      
+    }else{
+      this.provider.EditarSetor(this.setor).then(setor => {
+        alert("Setor " + setor.nome + " salvo com sucesso!");
+      }).catch((erro) => {
+        alert("Erro ao salvar setor: " + erro);
+      })
     }
-    await this.modalController.dismiss(acao);
+    this.modalController.dismiss();
   }
 
   setTipoAtual(tipo: number) {
     this.tipoAtual = tipo
   }
 
-  dismiss() {
-    let acao: any = {
-      acao: 4,
-      obj: this.setor
-    }
-    this.modalController.dismiss(acao);
-  }
 
   mudarTipo(acento: Acento) {
-    acento.tipo = this.tipoAtual 
+    acento.tipo = this.tipoAtual
   }
 
   definirAcentos() {
