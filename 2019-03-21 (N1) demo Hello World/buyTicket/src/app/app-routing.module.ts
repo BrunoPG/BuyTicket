@@ -11,7 +11,9 @@ const routes: Routes = [
   { path: 'configuracoes', loadChildren: './configuracoes/configuracoes.module#ConfiguracoesPageModule' },
   { path: 'cadastro-setor', loadChildren: './cadastro-setor/cadastro-setor.module#CadastroSetorPageModule' },
   { path: 'cadastro-sala/:id', loadChildren: './cadastro-sala/cadastro-sala.module#CadastroSalaPageModule' },
-  { path: 'cadastro-evento', loadChildren: './cadastro-evento/cadastro-evento.module#CadastroEventoPageModule' }
+  { path: 'cadastro-evento', loadChildren: './cadastro-evento/cadastro-evento.module#CadastroEventoPageModule' },
+  { path: 'slides', loadChildren: './slides/slides.module#SlidesPageModule' }
+ 
  
 ];
 

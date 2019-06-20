@@ -3,18 +3,20 @@ import { Component } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
+import { SlidesPage } from './slides/slides.page';
 
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html'
 })
 export class AppComponent {
+  //rootPage:string = 'slides';
   public appPages = [
     {
       title: 'Home',
       url: '/home',
       icon: 'home'
-    },
+    }, 
     {
       title: 'Evento',
       url: '/evento',
@@ -34,6 +36,11 @@ export class AppComponent {
       title: 'Configurações',
       url: '/configuracoes',
       icon: 'ios-construct'
+    },
+    {
+      title: 'Help',
+      url: '/slides',
+      icon: 'help'
     }
   ];
 
@@ -42,6 +49,7 @@ export class AppComponent {
     private splashScreen: SplashScreen,
     private statusBar: StatusBar
   ) {
+
     this.initializeApp();
   }
 
