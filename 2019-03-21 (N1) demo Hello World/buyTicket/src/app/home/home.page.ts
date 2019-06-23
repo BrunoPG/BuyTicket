@@ -7,10 +7,15 @@ import { NavController } from '@ionic/angular';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage {
-  constructor(public navCtrl: NavController){
+  constructor(public NavCtrl: NavController) {
 
   }
-  openEvento(){
-    this.navCtrl.navigateForward('cadastro-evento')
-   }
+  openEvento() {
+    this.NavCtrl.navigateForward('cadastro-evento')
+  }
+
+
+  vender() {
+    this.NavCtrl.navigateForward("venda-ingresso")
+  }
 }

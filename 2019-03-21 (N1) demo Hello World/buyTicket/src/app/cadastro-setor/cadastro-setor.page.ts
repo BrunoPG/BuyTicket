@@ -11,6 +11,7 @@ import { ProviderService } from '../provider.service';
 export class CadastroSetorPage implements OnInit {
 
   setor: Setor;
+  acentos: Array<Array<Acento>>;
   cor = ['primary', 'secondary', 'danger', 'medium']
   tipoAtual = 0;
   constructor(private navParams: NavParams,
@@ -25,7 +26,6 @@ export class CadastroSetorPage implements OnInit {
 
     let l_sala = this.navParams.get('sala');
     let l_setor = this.navParams.get('setor');
-    console.log(l_setor)
     if (l_setor > 0) {
       this.provider.GetSetor(l_setor).then(s => {
         this.setor = s;
@@ -51,8 +51,8 @@ export class CadastroSetorPage implements OnInit {
         alert("Setor " + setor.nome + " salvo com sucesso!");
       }).catch((erro) => {
         alert("Erro ao salvar setor: " + erro);
-      })      
-    }else{
+      })
+    } else {
       this.provider.EditarSetor(this.setor).then(setor => {
         alert("Setor " + setor.nome + " salvo com sucesso!");
       }).catch((erro) => {
@@ -73,12 +73,13 @@ export class CadastroSetorPage implements OnInit {
 
   definirAcentos() {
 
-    if (this.setor.qtd_fileira > 0 && this.setor.qtd_coluna > 0) {
-      //this.setor.acentos = [];
-      let row = 0
 
+    if (this.setor.qtd_fileira > 0 && this.setor.qtd_coluna > 0) {
+      this.acentos = [];
+      let row = 0
       let tamFil = this.setor.qtd_fileira as number;
       let tamCol = this.setor.qtd_coluna as number;
+
       while (row < tamFil) {
         let ac = Array<Acento>(tamCol)
         let i = 0;
@@ -90,7 +91,7 @@ export class CadastroSetorPage implements OnInit {
           ac[i].ativo = true;
           i++
         }
-        //this.setor.acentos.push(ac);
+        this.acentos.push(ac);
         row++;
       }
     }

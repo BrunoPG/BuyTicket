@@ -12,8 +12,9 @@ export class ProviderService {
   C_SERVIDOR = 'SERV_CONFIG';
   C_PORTA = 'PORTA_CONFIG';
 
-  SERVIDOR: string
-  PORTA: string;
+
+  SERVIDOR: string = ""
+  PORTA: string = ""
 
   listaSala = new Array<Sala>()
   listaEventos = new Array<Evento>()
@@ -22,17 +23,14 @@ export class ProviderService {
     public storage: Storage,
     public HTTP: HttpClient
   ) {
-
     this.GetServidor().then(serv => {
       this.SERVIDOR = serv;
+      this.GetPorta().then(p => {
+        this.PORTA = p;
+      })
     }).catch(() => {
       this.SERVIDOR = "";
     })
-
-    this.GetPorta().then(p => {
-      this.PORTA = p;
-    })
-
   }
 
   GetListaEventos(): Array<Evento> {
@@ -75,42 +73,57 @@ export class ProviderService {
 
   }
 
+  GetRota(): String {
+    if (this.PORTA != "" && typeof (this.PORTA) != undefined)
+      return this.SERVIDOR + ":" + this.PORTA
+    else {
+      return (this.SERVIDOR)
+    }
+  }
+
   GetChaveSetor(codSala: Number): Number {
-    // this.listaSala.forEach(element => {
-    //   if (element.id == codSala) {
-    //     return element.setores.length + 1
-    //   }
-    // });
+
     return 0;
   }
 
   SetServidorPorta(servidor: String, porta: string) {
+    this.SERVIDOR = servidor + ""
+    this.PORTA = porta
     this.storage.set(this.C_SERVIDOR, servidor);
-    this.storage.set(this.C_PORTA, porta);
+    this.storage.set(this.C_PORTA, porta + "");
   }
 
   GetServidor(): Promise<string> {
-    return this.storage.get(this.C_SERVIDOR).then((serv) => {
-      return serv;
-    });
+    return new Promise(resolve => {
+      this.storage.get(this.C_SERVIDOR).then((serv) => {
+        if (typeof (serv) == undefined || serv === "") {
+          resolve("")
+        } else
+          resolve(serv);
+      })
+    })
   }
 
+
   GetPorta(): Promise<string> {
-    return this.storage.get(this.C_PORTA).then((port) => {
-      return port;
+    return new Promise(resolve => {
+      this.storage.get(this.C_PORTA).then((port) => {
+        if (typeof (port) == undefined || port === "") {
+          resolve("")
+        } else
+          resolve(port)
+      })
     });
   }
 
   GetListaSalas() {
-
     return new Promise(resolve => {
-      this.HTTP.get("http://" + this.SERVIDOR + ":" + this.PORTA + "/sala/all", {}).subscribe(result => {
+      this.HTTP.get(this.GetRota() + "/sala/all", {}).subscribe(result => {
         resolve(result);
       }, erro => {
-        console.log(erro)
+        alert("Erro ao listar salas")
+        console.log("Erro ao listar salas: ", erro)
       });
-
-
     })
 
   }
@@ -118,7 +131,7 @@ export class ProviderService {
   GetSetor(setor: Number): Promise<Setor> {
     return new Promise(
       (resolve) => {
-        this.HTTP.get("http://" + this.SERVIDOR + ":" + this.PORTA + "/setor/" + setor, {}).subscribe((result: any) => {
+        this.HTTP.get(this.GetRota() + "/setor/" + setor, {}).subscribe((result: any) => {
           resolve(result.setor)
         }, erro => {
           reject(erro.erro)
@@ -129,7 +142,7 @@ export class ProviderService {
   GetSetoresSala(codsala: Number): Promise<Array<Setor>> {
     return new Promise(
       (resolve) => {
-        this.HTTP.get("http://" + this.SERVIDOR + ":" + this.PORTA + "/setor/sala/" + codsala, {}).subscribe((result: any) => {
+        this.HTTP.get(this.SERVIDOR + ":" + this.PORTA + "/setor/sala/" + codsala, {}).subscribe((result: any) => {
           if (result.erro != null)
             reject(result.erro)
           else {
@@ -147,7 +160,8 @@ export class ProviderService {
   SalvarSetor(setor): Promise<Setor> {
     return new Promise(
       (resolve) => {
-        this.HTTP.post("http://" + this.SERVIDOR + ":" + this.PORTA + "/setor", setor).subscribe((result: any) => {
+        console.log(setor)
+        this.HTTP.post(this.GetRota() + "/setor/save", setor).subscribe((result: any) => {
           if (result.setor != null)
             resolve(result.setor)
           else
@@ -157,6 +171,7 @@ export class ProviderService {
         });
       })
   }
+
 
   EditarSetor(setor): Promise<Setor> {
     return new Promise(
@@ -172,8 +187,9 @@ export class ProviderService {
       })
   }
 
+
   ExcluirSetor(id_setor) {
-    this.HTTP.delete("http://" + this.SERVIDOR + ":" + this.PORTA + "/setor/" + id_setor).subscribe((result: any) => {
+    this.HTTP.delete(this.SERVIDOR + ":" + this.PORTA + "/setor/" + id_setor).subscribe((result: any) => {
       console.log(result)
     }, erro => {
       console.log('Erro:', erro.erro)
@@ -184,7 +200,7 @@ export class ProviderService {
   SalvarSala(sala: Sala): Promise<Sala> {
     return new Promise(
       (resolve) => {
-        this.HTTP.post("http://" + this.SERVIDOR + ":" + this.PORTA + "/sala", sala).subscribe((result: any) => {
+        this.HTTP.post(this.SERVIDOR + ":" + this.PORTA + "/sala", sala).subscribe((result: any) => {
           if (result.sala != null)
             resolve(result.sala)
           else
@@ -196,7 +212,7 @@ export class ProviderService {
   }
 
   ExcluirSala(s: Sala) {
-    this.HTTP.delete("http://" + this.SERVIDOR + ":" + this.PORTA + "/sala/" + s.id).subscribe((result: any) => {
+    this.HTTP.delete(this.SERVIDOR + ":" + this.PORTA + "/sala/" + s.id).subscribe((result: any) => {
       console.log(result)
     }, erro => {
       console.log('Erro:', erro.erro)
@@ -206,7 +222,7 @@ export class ProviderService {
   GetSala(cod: number): Promise<Sala> {
     return new Promise(
       (resolve) => {
-        this.HTTP.get("http://" + this.SERVIDOR + ":" + this.PORTA + "/sala/" + cod, {}).subscribe((result: any) => {
+        this.HTTP.get(this.SERVIDOR + ":" + this.PORTA + "/sala/" + cod, {}).subscribe((result: any) => {
           if (result.erro == null)
             resolve(result.sala)
           else
