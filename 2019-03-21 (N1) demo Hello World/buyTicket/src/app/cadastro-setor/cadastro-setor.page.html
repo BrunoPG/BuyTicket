@@ -17,11 +17,17 @@
       </ion-item>
       <ion-item>
         <ion-label vertical="bottom" position="flating">Fileiras:</ion-label>
-        <ion-input type="number" [(ngModel)]="setor.qtd_fileira" (change)="definirAcentos()" name="qtd_fileira"
-          #qtd_fileira="ngModel"></ion-input>
+        <ion-input type="number" [(ngModel)]="setor.qtd_fileira" name="qtd_fileira" #qtd_fileira="ngModel"></ion-input>
         <ion-label position="flating">Colunas:</ion-label>
+<<<<<<< Updated upstream
         <ion-input type="number" [(ngModel)]="setor.qtd_colunas" (change)="definirAcentos()" name="qtd_colunas"
           #qtd_colunas="ngModel"></ion-input>
+=======
+        <ion-input type="number" [(ngModel)]="setor.qtd_coluna" name="qtd_coluna" #qtd_coluna="ngModel"></ion-input>
+        <ion-button (click)="definirAcentos()">
+          <ion-icon name="refresh"></ion-icon>
+        </ion-button>
+>>>>>>> Stashed changes
       </ion-item>
 
       <div text-center vertical="bottom" style="margin-top: 1%;">
@@ -58,7 +64,7 @@
       </ion-grid>
     </div>
     <ion-grid>
-      <ion-row *ngFor="let row of setor.acentos">
+      <ion-row *ngFor="let row of acentos">
         <ion-col *ngFor="let acento of row" style="width: 1%; height: 2%;">
           <ion-checkbox [(ngModel)]="acento.ativo" color="{{cor[acento.tipo]}}" (click)='mudarTipo(acento)'>
           </ion-checkbox>

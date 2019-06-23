@@ -11,6 +11,7 @@ import { ProviderService } from '../provider.service';
 export class CadastroSetorPage implements OnInit {
 
   setor: Setor;
+  acentos : Array<Array<Acento>>;
   cor = ['primary', 'secondary', 'danger', 'medium']
   tipoAtual = 0;
   constructor(private navParams: NavParams,
@@ -24,6 +25,7 @@ export class CadastroSetorPage implements OnInit {
 
     let l_sala = this.navParams.get('sala');
     let l_setor = this.navParams.get('setor');
+<<<<<<< Updated upstream
     
     this.provider.GetSetor(l_sala, l_setor).then(s => {
       if (s != null) {
@@ -38,6 +40,16 @@ export class CadastroSetorPage implements OnInit {
         this.setor = new Setor()
       }
     })
+=======
+    if (l_setor > 0) {
+      this.provider.GetSetor(l_setor).then(s => {
+        this.setor = s;
+      })
+    } else {
+      this.setor = new Setor()
+      this.setor.sala_id = l_sala;
+    }
+>>>>>>> Stashed changes
 
   }
 
@@ -77,12 +89,13 @@ export class CadastroSetorPage implements OnInit {
 
   definirAcentos() {
 
+    
     if (this.setor.qtd_fileira > 0 && this.setor.qtd_coluna > 0) {
-      //this.setor.acentos = [];
-      let row = 0
-
+      this.acentos = [];
+      let row = 0      
       let tamFil = this.setor.qtd_fileira as number;
       let tamCol = this.setor.qtd_coluna as number;
+      
       while (row < tamFil) {
         let ac = Array<Acento>(tamCol)
         let i = 0;
@@ -90,11 +103,11 @@ export class CadastroSetorPage implements OnInit {
           ac[i] = new Acento();
           ac[i].i = i
           ac[i].j = row
-          ac[i].tipo = 0
+          ac[i].tipo = 0 
           ac[i].ativo = true;
-          i++
+          i++          
         }
-        //this.setor.acentos.push(ac);
+        this.acentos.push(ac);
         row++;
       }
     }

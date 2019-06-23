@@ -3,7 +3,7 @@ import { NgForm } from '@angular/forms';
 import { Configuracao } from '../../app/configuracao';
 import { ProviderService } from '../provider.service';
 import { Router } from '@angular/router';
- 
+
 @Component({
   selector: 'app-configuracoes',
   templateUrl: './configuracoes.page.html',
@@ -31,10 +31,9 @@ export class ConfiguracoesPage implements OnInit {
 
   SetarConfiguracao(form: NgForm) {
     this.submitted = true;
-    if (form.valid) {
-      this.provider.SetServidorPorta(this.config.servidor, this.config.porta);
-      this.rota.navigateByUrl('/home');
-    }
+    this.provider.SetServidorPorta(this.config.servidor, this.config.porta);
+    this.rota.navigateByUrl('/home');
+
   }
 
 

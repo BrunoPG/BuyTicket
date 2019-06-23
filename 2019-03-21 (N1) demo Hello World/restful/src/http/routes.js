@@ -133,7 +133,7 @@ const routes = (server) => {
   })
 
   server.del('evento/:id', async (req, res, next) => {
-    try {
+    try {            
       res.send(await db.evento().del(req.params.id))
     } catch (error) {
       res.send(error)

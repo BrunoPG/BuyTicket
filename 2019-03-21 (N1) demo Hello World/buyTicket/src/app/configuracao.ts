@@ -1,7 +1,3 @@
-import { Time } from '@angular/common';
-import { StaticClassSansProvider } from '@angular/core/src/di/provider';
-
-const acao = ['add', 'update', 'delete', 'none']
 
 export interface Configuracao {
 
@@ -51,6 +47,7 @@ export class Acento {
     i: Number
     tipo: Number
     ativo: boolean
+    cod_setor: number
 }
 
 
