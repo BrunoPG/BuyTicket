@@ -13,6 +13,7 @@ import { CadastroSetorPageModule } from './cadastro-setor/cadastro-setor.module'
 import { HttpModule } from '@angular/http';
 import { CadastroEventoPageModule } from './cadastro-evento/cadastro-evento.module';
 import { HttpClientModule } from '@angular/common/http';
+import { BuyAssentoComponent } from './buy-assento/buy-assento.component';
 
 @NgModule({
   declarations: [AppComponent],

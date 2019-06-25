@@ -28,7 +28,7 @@ export class Setor {
     qtd_fileira: Number
     qtd_coluna: Number
     sala_id: Number
-    //acentos: Array<Array<Acento>>;
+    //Assentos: Array<Array<Assento>>;
 
     constructor() {
         this.id = 0
@@ -36,18 +36,18 @@ export class Setor {
         this.descricao = ''
         this.qtd_fileira = 0
         this.qtd_coluna = 0
-        //this.acentos = new Array<Array<Acento>>();
+        //this.Assentos = new Array<Array<Assento>>();
     }
 
 
 }
 
-export class Acento {
-    j: Number
-    i: Number
-    tipo: Number
-    ativo: boolean
-    cod_setor: number
+export class Assento {
+    coluna: string
+    linha: number
+    tipo_id: Number
+    status_id: Number
+    setor_id: Number
 }
 
 

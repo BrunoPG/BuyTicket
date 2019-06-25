@@ -1,11 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { NavController, ModalController } from '@ionic/angular';
-import { Sala, Setor, Acento } from '../configuracao';
+import { Sala, Setor } from '../configuracao';
 import { ProviderService } from '../provider.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CadastroSetorPage } from '../cadastro-setor/cadastro-setor.page';
-import { OverlayEventDetail } from '@ionic/core';
-import { providerDef } from '@angular/core/src/view';
 
 @Component({
   selector: 'app-cadastro-sala',
@@ -56,14 +54,13 @@ export class CadastroSalaPage implements OnInit {
       });
       this.acao = "Editando sala"
     }
-    
+
   }
 
   salvar() {
-    if (this.sala.id == 0)
-      this.provider.SalvarSala(this.sala).then((sala: any) => {
-        alert("Sala " + sala.nome + " salva com sucesso");
-      });
+    this.provider.SalvarSala(this.sala).then((sala: any) => {
+      alert("Sala " + sala.nome + " salva com sucesso!");
+    })
     this.navCtrl.back();
   }
 
@@ -78,35 +75,36 @@ export class CadastroSalaPage implements OnInit {
 
   async editarSetor(setor: Setor) {
     if (setor != null) {
-      const modalCad = await this.modal.create({
-        component: CadastroSetorPage,
-        componentProps: { setor: setor.id, sala: this.sala.id }
-      });      
-      await modalCad.present();
+      this.router.navigateByUrl("/cadastro-setor/" + setor.id, { state: this.sala })
+      // const modalCad = await this.modal.create({
+      //   component: CadastroSetorPage,
+      //   componentProps: { setor: setor.id, sala: this.sala.id }
+      // });
+      // await this.modal.dismiss((setor) => {
+      //   console.log("aqui também")
+      //   window.location.reload();
+      //   this.provider.GetSetoresSala(this.sala.id).then((setores: any) => {
+      //     this.setores = setores
+      //   }).catch(erro => {
+      //     alert("Erro abrir setores: " + erro)
+      //   })
+      // })
+
+      // await modalCad.present();
+
+
+
+
     }
   }
 
 
   async CriarSetor() {
-    if (this.sala.id == 0) {
-      this.provider.SalvarSala(this.sala).then(async (sala: any) => {
-        alert("Sala " + sala.nome + " salva com sucesso!");
-        this.sala.id = sala.id;
-
-        const modalCad = await this.modal.create({
-          component: CadastroSetorPage,
-          componentProps: { setor: 0, sala: this.sala.id }
-        });        
-        await modalCad.present();
-      });
-    } else {
-      const modalCad = await this.modal.create({
-        component: CadastroSetorPage,
-        componentProps: { setor: 0, sala: this.sala.id }
-      });      
-      await modalCad.present();
-    }
-
+    this.provider.SalvarSala(this.sala).then(async (sala: any) => {
+      ////alert("Sala " + sala.nome + " salva com sucesso!");
+      // this.sala.id = sala.id;
+      this.router.navigate(["cadastro-setor/0", sala])
+    });
   }
 
 

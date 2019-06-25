@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Setor, Acento, Sala } from '../configuracao';
+import { Setor, Assento, Sala } from '../configuracao';
 import { NavController } from '@ionic/angular';
 
 @Component({
@@ -10,10 +10,10 @@ import { NavController } from '@ionic/angular';
 export class VendaIngressoPage implements OnInit {
 
   cor = ['primary', 'secondary', 'danger', 'medium']
-  acentos: Array<Array<Acento>>;
+  assentos: Array<Array<Assento>>;
   constructor(public NavCtrl: NavController) {
 
-    this.acentos = new Array<Array<Acento>>();
+    this.assentos = new Array<Array<Assento>>();
     //let id_Evento: any;
     //id_Evento = this.activatedRoute.snapshot.paramMap.get('id_evento')   
     var i: number;
@@ -24,18 +24,18 @@ export class VendaIngressoPage implements OnInit {
     console.log("teste")
     while (i < 10) {
       J = 1;
-      let ac = Array<Acento>()
+      let ac = Array<Assento>()
       while (J < 50) {
-        ac[J] = new Acento();
-        ac[J].i = i
-        ac[J].j = J
-        ac[J].tipo = 0
-        ac[J].ativo = true;
+        ac[J] = new Assento();
+        ac[J].coluna = i+""
+        ac[J].linha = J
+        ac[J].tipo_id = 0
+        ac[J].status_id = 0;
         J++
 
       }
       i ++;
-      this.acentos.push(ac);
+      this.assentos.push(ac);
     }
   }
 

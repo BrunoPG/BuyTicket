@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
-import { Sala, Setor, Evento } from '../../src/app/configuracao';
+import { Sala, Setor, Evento, Assento } from '../../src/app/configuracao';
 import { HttpClient } from '@angular/common/http';
 import { reject } from 'q';
 
@@ -161,7 +161,34 @@ export class ProviderService {
     return new Promise(
       (resolve) => {
         console.log(setor)
-        this.HTTP.post(this.GetRota() + "/setor/save", setor).subscribe((result: any) => {
+        if (setor.id == 0) {
+          this.HTTP.post(this.GetRota() + "/setor/save", setor).subscribe((result: any) => {
+            if (result.setor != null)
+              resolve(result.setor)
+            else
+              resolve(result.erro)
+          }, erro => {
+            resolve(erro.erro)
+          });
+        } else {
+          this.HTTP.put(this.GetRota() + "/setor", setor).subscribe((result: any) => {
+            if (result.setor != null)
+              resolve(result.setor)
+            else
+              resolve(result.erro)
+          }, erro => {
+            reject(erro.erro)
+          });
+        }
+      })
+  }
+
+
+
+  SalvarAssentosSetor(Acentos): Promise<Setor> {
+    return new Promise(
+      (resolve) => {
+        this.HTTP.post(this.GetRota() + "/assentos/save", Acentos).subscribe((result: any) => {
           if (result.setor != null)
             resolve(result.setor)
           else
@@ -172,24 +199,48 @@ export class ProviderService {
       })
   }
 
+  GetAssentos(id_setor): Promise<Array<Array<Assento>>> {
+    return new Promise(resolve => {
+      this.HTTP.get(this.GetRota() + "/assentos/setor/" + id_setor, {}).subscribe((result: any) => {
 
-  EditarSetor(setor): Promise<Setor> {
-    return new Promise(
-      (resolve) => {
-        this.HTTP.put("http://" + this.SERVIDOR + ":" + this.PORTA + "/setor", setor).subscribe((result: any) => {
-          if (result.setor != null)
-            resolve(result.setor)
-          else
-            resolve(result.erro)
-        }, erro => {
-          reject(erro.erro)
+        let ABC = "ABCDEFGHIJKLMNOPQSRTUWXYZ";
+        let retorno = new Array<Array<Assento>>();
+        result.assentos.forEach((assento: Assento) => {
+          let i = ABC.indexOf(assento.coluna)
+
+          if (retorno[i] == undefined) {
+            console.log(retorno[i])
+            retorno[i] = new Array<Assento>()
+          }
+          retorno[i].push(assento)
+          console.log(assento)
         });
-      })
+        resolve(retorno);
+      }, erro => {
+        alert("Erro ao listar assentos")
+        console.log("Erro ao listar assentos: ", erro)
+      });
+    })
+
   }
 
+  DeletaAssentos(id_setor): Promise<any> {
+    return new Promise(resolve => {
+      if (id_setor == 0) {
+        resolve("");
+      }
+      this.HTTP.delete(this.GetRota() + "/assentos/setor/" + id_setor, {}).subscribe((result: any) => {
+        resolve(result);
+      }, erro => {
+        alert("Erro ao excluir assentos")
+        console.log("Erro ao excluir assentos: ", erro)
+      });
+    })
+
+  }
 
   ExcluirSetor(id_setor) {
-    this.HTTP.delete(this.SERVIDOR + ":" + this.PORTA + "/setor/" + id_setor).subscribe((result: any) => {
+    this.HTTP.delete(this.GetRota() + "/setor/" + id_setor).subscribe((result: any) => {
       console.log(result)
     }, erro => {
       console.log('Erro:', erro.erro)
@@ -198,20 +249,36 @@ export class ProviderService {
 
 
   SalvarSala(sala: Sala): Promise<Sala> {
+    console.log("Sala: ", sala)
     return new Promise(
       (resolve) => {
-        this.HTTP.post(this.SERVIDOR + ":" + this.PORTA + "/sala", sala).subscribe((result: any) => {
-          if (result.sala != null)
-            resolve(result.sala)
-          else
-            console.log('Erro:', result.erro)
-        }, erro => {
-          console.log('Erro:', erro.erro)
-        });
+        if (sala.id == 0) {
+          console.log(sala)
+          this.HTTP.post(this.GetRota() + "/sala/save", sala).subscribe((result: any) => {
+            if (result.sala != null)
+              resolve(result.sala)
+            else
+              console.log('Erro:', result.erro)
+          }, erro => {
+            console.log('Erro:', erro.erro)
+          });
+        } else {
+          console.log(sala)
+          this.HTTP.put(this.GetRota() + "/sala", sala).subscribe((result: any) => {
+            if (result.sala != null)
+              resolve(result.sala)
+            else
+              console.log('Erro:', result.erro)
+          }, erro => {
+            console.log('Erro:', erro.erro)
+          });
+        }
       })
   }
 
+
   ExcluirSala(s: Sala) {
+    console.log(s)
     this.HTTP.delete(this.SERVIDOR + ":" + this.PORTA + "/sala/" + s.id).subscribe((result: any) => {
       console.log(result)
     }, erro => {
@@ -232,7 +299,5 @@ export class ProviderService {
         });
       })
   }
-
-
 
 }

@@ -20,9 +20,9 @@
         <ion-input type="number" [(ngModel)]="setor.qtd_fileira" name="qtd_fileira" #qtd_fileira="ngModel"></ion-input>
         <ion-label position="flating">Colunas:</ion-label>
         <ion-input type="number" [(ngModel)]="setor.qtd_coluna" name="qtd_coluna" #qtd_coluna="ngModel"></ion-input>
-        <ion-button (click)="definirAcentos()">
+        <ion-button (click)="definirAssentos()">
           <ion-icon name="refresh"></ion-icon>
-        </ion-button>>
+        </ion-button>
       </ion-item>
 
       <div text-center vertical="bottom" style="margin-top: 1%;">
@@ -59,10 +59,10 @@
       </ion-grid>
     </div>
     <ion-grid>
-      <ion-row *ngFor="let row of acentos">
-        <ion-col *ngFor="let acento of row" style="width: 1%; height: 2%;">
-          <ion-checkbox [(ngModel)]="acento.ativo" color="{{cor[acento.tipo]}}" (click)='mudarTipo(acento)'>
-          </ion-checkbox>
+      <ion-row *ngFor="let row of assentos">
+        <ion-col *ngFor="let assento of row" style="width: 1%; height: 2%;">
+          <app-buy-assento assento="{{assento.coluna}}{{assento.linha}}" cor="{{corAcento[assento.tipo_id]}}" (click)="mudarTipo(assento)"></app-buy-assento>
+          <!-- cor="{{cor[assento.tipo_id]}}" -->
         </ion-col>
       </ion-row>
     </ion-grid>

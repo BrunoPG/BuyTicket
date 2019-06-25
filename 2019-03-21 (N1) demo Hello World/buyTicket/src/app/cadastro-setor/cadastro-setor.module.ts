@@ -6,6 +6,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { CadastroSetorPage } from './cadastro-setor.page';
+import { BuyAssentoComponent } from '../buy-assento/buy-assento.component';
 
 const routes: Routes = [
   {
@@ -21,6 +22,6 @@ const routes: Routes = [
     IonicModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [CadastroSetorPage]
+  declarations: [CadastroSetorPage,BuyAssentoComponent]
 })
 export class CadastroSetorPageModule {}

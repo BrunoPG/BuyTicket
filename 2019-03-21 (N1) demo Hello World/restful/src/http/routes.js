@@ -39,7 +39,7 @@ const routes = (server) => {
       res.send(error)
     }
     next()
-  })
+  })  
 
   server.get('evento/all', async (req, res, next) => {
     try {
@@ -119,6 +119,34 @@ const routes = (server) => {
     next()
   })
 
+  server.get('setor/:id', async (req, res, next) => {
+    try {      
+      res.send(await db.setor().getById(req.params.id))
+    } catch (error) {
+      res.send(error)
+    }
+    next()
+  })
+
+  server.put('setor', async (req, res, next) => {
+    const setor = req.body    
+    try {
+      res.send(await db.setor().update(setor))
+    } catch (error) {
+      res.send(error)
+    }
+    next()
+  })
+
+  server.del('setor/:id', async (req, res, next) => {
+    try {            
+      res.send(await db.setor().del(req.params.id))
+    } catch (error) {
+      res.send(error)
+    }
+    next()
+  })
+
   server.get('sala/all', async (req, res, next) => {
     try {
       res.send(await db.sala().all())
@@ -127,6 +155,8 @@ const routes = (server) => {
     }
     next()
   })
+
+
 
   server.get('sala/:id', async (req, res, next) => {
     try {
@@ -138,6 +168,16 @@ const routes = (server) => {
     next()
   })
 
+  server.del('sala/:id', async (req, res, next) => {
+    try {            
+      res.send(await db.sala().del(req.params.id))
+    } catch (error) {
+      res.send(error)
+    }
+    next()
+  })
+
+
   server.post('sala/save', async (req, res, next) => {
     const sala = req.body
     try {
@@ -147,6 +187,17 @@ const routes = (server) => {
     }
     next()
   })
+
+  server.put('sala', async (req, res, next) => {
+    const sala = req.body    
+    try {
+      res.send(await db.sala().update(sala))
+    } catch (error) {
+      res.send(error)
+    }
+    next()
+  })
+  
 
   server.put('evento', async (req, res, next) => {
     const evento = req.body
@@ -162,6 +213,35 @@ const routes = (server) => {
   server.del('evento/:id', async (req, res, next) => {
     try {            
       res.send(await db.evento().del(req.params.id))
+    } catch (error) {
+      res.send(error)
+    }
+    next()
+  })
+
+  server.post('assentos/save', async (req, res, next) => {
+    const acenstos = req.body
+    try {
+      res.send(await db.setor().saveAssentos(acenstos))
+    } catch (error) {
+      console.log(error)
+      res.send(error)
+    }
+    next()
+  })
+
+  server.get('assentos/setor/:setor_id', async (req, res, next) => {
+    try {
+      res.send(await db.setor().getAssentos(req.params.setor_id))
+    } catch (error) {
+      res.send(error)
+    }
+    next()
+  })
+
+  server.del('assentos/setor/:setor_id', async (req, res, next) => {
+    try {
+      res.send(await db.setor().DelAssentos(req.params.setor_id))
     } catch (error) {
       res.send(error)
     }

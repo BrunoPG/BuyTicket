@@ -1,0 +1,28 @@
+.assento{
+    height: 60px;
+ }
+ 
+  .app-assento { 
+     text-align: center;     
+     font-size: 7px;
+     width: 30px;
+     height: 30px;
+     margin: 2%;
+     border-radius: 50%;
+    //  background-color: var(--color-assento);
+     left: 0;
+     top: 0;
+    //  border: 2px solid black;
+     left: 0;
+     cursor: pointer;
+     -webkit-appearance: none;
+     -moz-appearance: none;
+     appearance: none;
+     outline: none;    
+     &:hover{
+        background: var(--color-assento)
+       }
+     
+    }
+ 
+ 
