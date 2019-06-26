@@ -10,7 +10,6 @@
 <ion-content>
 
   <ion-item>
-    <ion-label>Código</ion-label>
     <ion-label>Nome evento</ion-label>
     <ion-label>Descrição</ion-label>
     <ion-label>Data</ion-label>    
@@ -18,13 +17,12 @@
     <ion-label>Quantidade de ingressos</ion-label>
   </ion-item>
   <ion-list *ngFor="let e of eventos">
-    <ion-item (click)="openEvento(e.cod)">
-      <ion-label >{{e.cod}}</ion-label> 
+    <ion-item (click)="openEvento(e.id)">
       <ion-label >{{e.nome}}</ion-label>
       <ion-label >{{e.descricao}}</ion-label>
       <ion-label >{{e.data}}</ion-label>
       <ion-label >{{e.hora}}</ion-label>
-      <ion-label >{{e.qtd_ingresos}}</ion-label>
+      <ion-label >{{e.qtd_ingresso}}</ion-label>
     </ion-item>
   </ion-list>
 

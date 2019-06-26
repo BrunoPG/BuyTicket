@@ -36,7 +36,7 @@ const sala = deps => {
             errorHandler(error, `Falha ao atualizar o sala ${sala.nome}`, reject)
             return false
           }
-          resolve({ sala: { nome: sala.nome }, affectedRows: results.affectedRows })
+          resolve({ sala: results})
         })
       })
     },

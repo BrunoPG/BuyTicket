@@ -2,10 +2,10 @@
 const mysqlServer = require('mysql')
 
 const connection = mysqlServer.createConnection({ 
-  host: "localhost",//process.env.MYSQL_HOST,
-  user: "root",//process.env.MYSQL_USERNAME,
-  password: "password",//process.env.MYSQL_PASSWORD,
-  database:  "buy_ticket",// process.env.MYSQL_DATABASE,
+  host: process.env.MYSQL_HOST,
+  user: process.env.MYSQL_USERNAME,
+  password: process.env.MYSQL_PASSWORD,
+  database: process.env.MYSQL_DATABASE,
   insecureAuth :true
 })
 

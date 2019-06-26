@@ -148,7 +148,7 @@ const routes = (server) => {
   })
 
   server.get('sala/all', async (req, res, next) => {
-    try {
+    try {      
       res.send(await db.sala().all())
     } catch (error) {
       res.send(error)

@@ -52,20 +52,22 @@ const setor = deps => {
     },
     getById: (id) => {
       return new Promise((resolve, reject) => {
-        const { connection, errorHandler } = deps      
-        connection.query('SELECT * FROM setor WHERE id = ? LIMIT 1', [id], (error, results) => {           
+        const { connection, errorHandler } = deps
+        connection.query('SELECT * FROM setor WHERE id = ? LIMIT 1', [id], (error, results) => {
           if (error) {
-            errorHandler(error, 'Falha ao buscar o setor '+id, reject)
+            errorHandler(error, 'Falha ao buscar o setor ' + id, reject)
             return false
-          }else
-          resolve({ setor: results[0], affectedRows: results.affectedRows })
+          } else {
+            console.log(results)
+            resolve({ setor: results[0] })
+          }
         })
       })
     },
     getSetoresBySalaId: (sala_id) => {
       return new Promise((resolve, reject) => {
         const { connection, errorHandler } = deps
-        connection.query('SELECT * FROM setor WHERE sala_id = ?', [sala_id], (error, results) => {          
+        connection.query('SELECT * FROM setor WHERE sala_id = ?', [sala_id], (error, results) => {
           if (error) {
             errorHandler(error, 'Falha ao listar os setor', reject)
             return false
@@ -80,7 +82,7 @@ const setor = deps => {
         acentos.forEach(colunas => {
           colunas.forEach(acento => {
             connection.query('INSERT INTO Assento (coluna, linha, tipo_id, status_id, setor_id) VALUES (?, ?, ?, ?, ?)', [acento.coluna, acento.linha, acento.tipo_id, acento.ststus_id, acento.setor_id], (error, results) => {
-              if (error) {
+              if (error) {                                                 
                 errorHandler(error, 'Falha ao salvar os assentos', reject)
                 return false
               }
@@ -93,7 +95,7 @@ const setor = deps => {
     getAssentos: (id_setor) => {
       return new Promise((resolve, reject) => {
         const { connection, errorHandler } = deps
-        connection.query('SELECT * FROM assento where setor_id = ?',[id_setor], (error, results) => {
+        connection.query('SELECT * FROM assento where setor_id = ?', [id_setor], (error, results) => {
           if (error) {
             errorHandler(error, 'Falha ao listar os assentos', reject)
             return false
@@ -105,7 +107,7 @@ const setor = deps => {
     DelAssentos: (id_setor) => {
       return new Promise((resolve, reject) => {
         const { connection, errorHandler } = deps
-        connection.query('DELETE from assento where setor_id = ?',[id_setor], (error, retorno) => {
+        connection.query('DELETE from assento where setor_id = ?', [id_setor], (error, retorno) => {
           if (error) {
             errorHandler(error, 'Falha excluir os assentos', reject)
             return false
@@ -115,7 +117,7 @@ const setor = deps => {
       })
     }
 
-    
+
   }
 
 }

@@ -33,42 +33,65 @@ export class ProviderService {
     })
   }
 
-  GetListaEventos(): Array<Evento> {
-    return this.listaEventos;
+  GetListaEventos(): Promise<Array<Evento>> {
+    return new Promise((resolve) => {
+      this.HTTP.get(`${this.GetRota()}/evento/all`, {}).subscribe((result: any) => {
+        if (result.erro != null)
+          reject(result.erro)
+        else {
+          if (result.eventos == []) {
+            resolve(new Array<Evento>());
+          } else
+            resolve(result.eventos)
+        }
+      }, erro => {
+        reject(erro.erro)
+      });
+    })
   }
 
-  Addevento(evento: Evento) {
-    if (evento.cod == 0) {
-      evento.cod = this.listaEventos.length + 1;
-    }
-    this.listaEventos.push(evento);
+  SalvarEvento(evento: Evento): Promise<any> {
+    return new Promise(resolve => {
+      if (evento.id == 0) {
+        this.HTTP.post(`${this.GetRota()}/evento`, evento).subscribe((result: any) => {
+          resolve(result.evento)
+        }, erro => {
+          reject(erro.erro)
+        })
+      }else{
+        this.HTTP.put(`${this.GetRota()}/evento`, evento).subscribe((result: any) => {
+          resolve(result.evento)
+        }, erro => {
+          reject(erro.erro)
+        })
+      }
+    })
+
   }
+
+
 
   DeleteEvento(evento: Evento) {
 
   }
 
   GetSalaNaoEventos(evento: Evento): Array<Sala> {
-    let salas = new Array<Sala>();
-
-    this.listaSala.forEach(sala => {
-      if (evento.salas.indexOf(sala) < 0)
-        salas.push(sala)
-
-    });
-    return salas
+    
+    return new Array<Sala>();
   }
 
 
   GetEvento(cod: Number): Promise<Evento> {
-
     return new Promise((resolve) => {
-      this.listaEventos.forEach(evento => {
-        if (evento.cod == cod) {
-          resolve(evento)
+      this.HTTP.get(`${this.GetRota()}/evento/${cod}`, {}).subscribe((result: any) => {
+        if (result.erro != null)
+          reject(result.erro)
+        else {
+          resolve(result.evento)
         }
+      }, erro => {
+        reject(erro.erro)
       });
-      resolve(new Evento)
     })
 
   }
@@ -116,10 +139,10 @@ export class ProviderService {
     });
   }
 
-  GetListaSalas() {
+  GetListaSalas(): Promise<Sala> {
     return new Promise(resolve => {
-      this.HTTP.get(this.GetRota() + "/sala/all", {}).subscribe(result => {
-        resolve(result);
+      this.HTTP.get(this.GetRota() + "/sala/all", {}).subscribe((result: any) => {
+        resolve(result.salas);
       }, erro => {
         alert("Erro ao listar salas")
         console.log("Erro ao listar salas: ", erro)
@@ -160,7 +183,6 @@ export class ProviderService {
   SalvarSetor(setor): Promise<Setor> {
     return new Promise(
       (resolve) => {
-        console.log(setor)
         if (setor.id == 0) {
           this.HTTP.post(this.GetRota() + "/setor/save", setor).subscribe((result: any) => {
             if (result.setor != null)
@@ -185,10 +207,10 @@ export class ProviderService {
 
 
 
-  SalvarAssentosSetor(Acentos): Promise<Setor> {
+  SalvarAssentosSetor(Assentos): Promise<Setor> {
     return new Promise(
       (resolve) => {
-        this.HTTP.post(this.GetRota() + "/assentos/save", Acentos).subscribe((result: any) => {
+        this.HTTP.post(this.GetRota() + "/assentos/save", Assentos).subscribe((result: any) => {
           if (result.setor != null)
             resolve(result.setor)
           else
@@ -209,11 +231,9 @@ export class ProviderService {
           let i = ABC.indexOf(assento.coluna)
 
           if (retorno[i] == undefined) {
-            console.log(retorno[i])
             retorno[i] = new Array<Assento>()
           }
           retorno[i].push(assento)
-          console.log(assento)
         });
         resolve(retorno);
       }, erro => {
@@ -249,11 +269,9 @@ export class ProviderService {
 
 
   SalvarSala(sala: Sala): Promise<Sala> {
-    console.log("Sala: ", sala)
     return new Promise(
       (resolve) => {
         if (sala.id == 0) {
-          console.log(sala)
           this.HTTP.post(this.GetRota() + "/sala/save", sala).subscribe((result: any) => {
             if (result.sala != null)
               resolve(result.sala)
@@ -263,7 +281,6 @@ export class ProviderService {
             console.log('Erro:', erro.erro)
           });
         } else {
-          console.log(sala)
           this.HTTP.put(this.GetRota() + "/sala", sala).subscribe((result: any) => {
             if (result.sala != null)
               resolve(result.sala)
@@ -278,7 +295,6 @@ export class ProviderService {
 
 
   ExcluirSala(s: Sala) {
-    console.log(s)
     this.HTTP.delete(this.SERVIDOR + ":" + this.PORTA + "/sala/" + s.id).subscribe((result: any) => {
       console.log(result)
     }, erro => {

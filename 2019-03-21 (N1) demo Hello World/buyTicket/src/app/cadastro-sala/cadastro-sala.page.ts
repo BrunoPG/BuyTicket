@@ -22,7 +22,7 @@ export class CadastroSalaPage implements OnInit {
   constructor(
     public navCtrl: NavController,
     public provider: ProviderService,
-    private activatedRoute: ActivatedRoute,
+    public activatedRoute: ActivatedRoute,
     public modal: ModalController,
     public router: Router) {
     this.setores = new Array<Setor>();
@@ -34,8 +34,6 @@ export class CadastroSalaPage implements OnInit {
 
     let id: any;
     id = this.activatedRoute.snapshot.paramMap.get('id')
-    // this.sala = new Sala();
-    // this.setores = new Array<Setor>();
     if (id == 0) {
       this.acao = "Criar sala"
       this.sala = new Sala();
@@ -75,35 +73,14 @@ export class CadastroSalaPage implements OnInit {
 
   async editarSetor(setor: Setor) {
     if (setor != null) {
-      this.router.navigateByUrl("/cadastro-setor/" + setor.id, { state: this.sala })
-      // const modalCad = await this.modal.create({
-      //   component: CadastroSetorPage,
-      //   componentProps: { setor: setor.id, sala: this.sala.id }
-      // });
-      // await this.modal.dismiss((setor) => {
-      //   console.log("aqui também")
-      //   window.location.reload();
-      //   this.provider.GetSetoresSala(this.sala.id).then((setores: any) => {
-      //     this.setores = setores
-      //   }).catch(erro => {
-      //     alert("Erro abrir setores: " + erro)
-      //   })
-      // })
-
-      // await modalCad.present();
-
-
-
-
+      this.navCtrl.navigateForward("cadastro-setor/" + this.sala.id + "/" + setor.id)
     }
   }
 
 
   async CriarSetor() {
     this.provider.SalvarSala(this.sala).then(async (sala: any) => {
-      ////alert("Sala " + sala.nome + " salva com sucesso!");
-      // this.sala.id = sala.id;
-      this.router.navigate(["cadastro-setor/0", sala])
+      this.navCtrl.navigateForward("cadastro-setor/" + this.sala.id + "/0")
     });
   }
 
@@ -111,8 +88,6 @@ export class CadastroSalaPage implements OnInit {
   ionViewDidEnter() {
     let id: any;
     id = this.activatedRoute.snapshot.paramMap.get('id')
-    // this.sala = new Sala();
-    // this.setores = new Array<Setor>();
     if (id == 0) {
       this.acao = "Criar sala"
       this.sala = new Sala();

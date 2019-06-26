@@ -1,9 +1,11 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Setor</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button text="Setor">
+      </ion-back-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
-
 <ion-content>
   <div>
     <Form novalidate>
@@ -17,12 +19,14 @@
       </ion-item>
       <ion-item>
         <ion-label vertical="bottom" position="flating">Fileiras:</ion-label>
-        <ion-input type="number" [(ngModel)]="setor.qtd_fileira" name="qtd_fileira" #qtd_fileira="ngModel"></ion-input>
+        <ion-input type="number" [(ngModel)]="setor.qtd_fileira" (change)="definirAssentos()" name="qtd_fileira"
+          #qtd_fileira="ngModel"></ion-input>
         <ion-label position="flating">Colunas:</ion-label>
-        <ion-input type="number" [(ngModel)]="setor.qtd_coluna" name="qtd_coluna" #qtd_coluna="ngModel"></ion-input>
-        <ion-button (click)="definirAssentos()">
+        <ion-input type="number" [(ngModel)]="setor.qtd_coluna" (change)="definirAssentos()" name="qtd_coluna"
+          #qtd_coluna="ngModel"></ion-input>
+        <!-- <ion-button (click)="definirAssentos()">
           <ion-icon name="refresh"></ion-icon>
-        </ion-button>
+        </ion-button> -->
       </ion-item>
 
       <div text-center vertical="bottom" style="margin-top: 1%;">
@@ -40,19 +44,23 @@
           <ion-radio-group text-center>
             <ion-col style=" width: 20%;">
               <ion-label color="{{cor[0]}}">Normal </ion-label>
-              <ion-radio color="{{cor[0]}}" (click)='setTipoAtual(0)'></ion-radio>
+              <ion-radio color="{{cor[0]}}" (click)='setTipoAtual(1)'></ion-radio>
             </ion-col>
             <ion-col>
               <ion-label color="{{cor[1]}}">Reservado </ion-label>
-              <ion-radio color="{{cor[1]}}" (click)='setTipoAtual(1)'></ion-radio>
+              <ion-radio color="{{cor[1]}}" (click)='setTipoAtual(2)'></ion-radio>
             </ion-col>
             <ion-col>
               <ion-label color="{{cor[2]}}">Especial </ion-label>
-              <ion-radio color="{{cor[2]}}" (click)='setTipoAtual(2)'></ion-radio>
+              <ion-radio color="{{cor[2]}}" (click)='setTipoAtual(3)'></ion-radio>
             </ion-col>
             <ion-col>
               <ion-label color="{{cor[3]}}">Outro </ion-label>
-              <ion-radio color="{{cor[3]}}" (click)='setTipoAtual(3)'></ion-radio>
+              <ion-radio color="{{cor[3]}}" (click)='setTipoAtual(4)'></ion-radio>
+            </ion-col>
+            <ion-col>
+              <ion-label color="{{cor[4]}}">Inexistente</ion-label>
+              <ion-radio color="{{cor[4]}}" (click)='setTipoAtual(5)'></ion-radio>
             </ion-col>
           </ion-radio-group>
         </ion-row>
@@ -61,8 +69,8 @@
     <ion-grid>
       <ion-row *ngFor="let row of assentos">
         <ion-col *ngFor="let assento of row" style="width: 1%; height: 2%;">
-          <app-buy-assento assento="{{assento.coluna}}{{assento.linha}}" cor="{{corAcento[assento.tipo_id]}}" (click)="mudarTipo(assento)"></app-buy-assento>
-          <!-- cor="{{cor[assento.tipo_id]}}" -->
+          <app-buy-assento assento="{{assento.coluna}}{{assento.linha}}" cor="{{cor[assento.tipo_id-1]}}"
+            (click)="mudarTipo(assento)"></app-buy-assento>
         </ion-col>
       </ion-row>
     </ion-grid>

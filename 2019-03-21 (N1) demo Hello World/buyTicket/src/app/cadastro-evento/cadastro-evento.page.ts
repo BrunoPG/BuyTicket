@@ -12,91 +12,74 @@ import { NavParams, NavController, ModalController, ActionSheetController, Picke
 export class CadastroEventoPage implements OnInit {
 
   evento: Evento
-  constructor(private navParams: NavParams,
-    private provider: ProviderService,
-    private NavCtrl: NavController,
-    private modal: ModalController,
+  listaSalas: Array<Sala>
+  constructor(
+    public provider: ProviderService,
+    public NavCtrl: NavController,
     public pickerCtrl: PickerController,
-    private actionSheetController: ActionSheetController) {
-
-    let codEvento = this.navParams.get('evento');
-    console.log(codEvento)
-    provider.GetEvento(Number(codEvento)).then(evento => {
-      this.evento = evento;
-    });
-
-
+    public activatedRoute: ActivatedRoute) {
+    this.listaSalas = new Array<Sala>();
+    this.evento = new Evento();
   }
 
   ngOnInit() {
+
+    let codEvento = this.activatedRoute.snapshot.paramMap.get('idevento')
+    if (Number(codEvento) > 0) {
+      this.provider.GetEvento(Number(codEvento)).then(evento => {
+        this.evento = evento;
+      });
+    }
   }
 
   removerSala(sala: Sala) {
-    let ind = this.evento.salas.indexOf(sala)
-    this.evento.salas.splice(ind, 1);
+    let ind = this.listaSalas.indexOf(sala)
+    this.listaSalas.splice(ind, 1);
   }
 
   salvar() {
-    this.provider.Addevento(this.evento);
-    this.modal.dismiss();
+    this.provider.SalvarEvento(this.evento);
+    this.NavCtrl.back();
   }
 
   excluir() {
     this.provider.DeleteEvento(this.evento);
-    this.modal.dismiss();
+    this.NavCtrl.back()
   }
 
   async presentActionSheet() {
-    let salas = this.provider.GetSalaNaoEventos(this.evento)
-    let butao = [];
 
-    if (salas.length > 0) {
+    this.provider.GetListaSalas().then((salas: any) => {      
+      let opt = [];
       salas.forEach(s => {
-        butao.push({
-          text: s.nome,
-          icon: 'md-albums',
+        opt.push({
+          text: `${s.nome} - ${s.descricao}`,
+          value: 'md-albums',
           handler: () => {
-            this.evento.salas.push(s);
+            this.listaSalas.push(s)
+            
           }
         })
       })
-      const actionSheet = await this.actionSheetController.create({
-        header: 'Salas',
-        buttons: butao
-      });
-      await actionSheet.present();
-    }
-  }
 
-  /*async presentActionSheet() {
-
-    let salas = this.provider.GetSalaNaoEventos(this.evento)
-    let opt = [];
-    salas.forEach(s => {
-      opt.push({
-        text: s.nome,
-        value: 'md-albums',
-        handler: () => {
-          this.evento.salas.push(s);
-        }
+      this.pickerCtrl.create({
+        buttons: [{
+          text: 'Adicionar',
+        }],
+        columns: [
+          {
+            name: 'Salas',
+            options: opt
+          }
+        ]
+      }).then(result => {
+        result.present();
       })
-    })  
-
-    const picker = await this.pickerCtrl.create({
-      buttons: [{
-        text: 'Salvar',
-      }],
-      columns: [
-        {
-          name: 'Salas',
-          options: opt
-        }
-      ]
-    });
-    await picker.present();
-
-  
-  }*/
 
 
+    }).catch(erro => {
+      alert("Erro ao listar salas")
+    })
+  }
 }
+

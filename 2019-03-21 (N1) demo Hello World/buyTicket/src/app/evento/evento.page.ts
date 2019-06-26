@@ -14,24 +14,27 @@ export class EventoPage implements OnInit {
 
   eventos = new Array<Evento>()
 
-  constructor(public navCtrl: NavController,
-    public provider: ProviderService,
-    public modal: ModalController) {
+  constructor(
+    public navCtrl: NavController,
+    public provider: ProviderService) {
 
-    this.eventos = provider.GetListaEventos();
+
 
   }
-
+  
   ngOnInit() {
-  }
-  async openEvento(cod: Number) {
 
-    const modalEvento = await this.modal.create({
-      component: CadastroEventoPage,
-      componentProps: { evento: cod }
+  }
+
+  ionViewDidEnter() {
+    this.provider.GetListaEventos().then(eventos => {
+      this.eventos = eventos;
+    }).catch(erro => {
+      alert("Erro ao listar eventos: " + erro)
     });
- 
-    await modalEvento.present();
+  }
+  openEvento(cod: Number) {
+    this.navCtrl.navigateForward("cadastro-evento/" + cod)
   }
 
 

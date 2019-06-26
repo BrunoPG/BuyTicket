@@ -1,4 +1,4 @@
-import { Component, OnInit,Input } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-buy-assento',
@@ -7,16 +7,13 @@ import { Component, OnInit,Input } from '@angular/core';
 })
 export class BuyAssentoComponent implements OnInit {
 
-  @Input() cor : string;
-  @Input() assento : string ;
+  @Input() cor: string;
+  @Input() assento: string;
 
 
   constructor() { }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
-  clicou(assento){    
-       //assento.element.styleUrls() 
-  }
 
 }

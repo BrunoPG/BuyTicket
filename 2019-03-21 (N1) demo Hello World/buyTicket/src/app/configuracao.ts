@@ -48,28 +48,32 @@ export class Assento {
     tipo_id: Number
     status_id: Number
     setor_id: Number
+    constructor() {
+        this.coluna = ""
+        this.linha = 0
+        this.tipo_id = 1
+        this.setor_id = 0
+    }
 }
 
 
 export class Evento {
-    cod: Number
+    id: Number
     nome: String
     descricao: String
     data: Date
     hora: Date
     local: String
-    qtd_ingresos: Number   
-    salas: Array<Sala> 
+    qtd_ingresso: Number
 
     constructor() {
-        this.cod = 0
+        this.id = 0
         this.nome = ''
         this.descricao = ''
         this.data = new Date();
         this.hora = new Date();
         this.local = "";
-        this.qtd_ingresos = 0;
-        this.salas = new Array<Sala>();
+        this.qtd_ingresso = 0;
     }
 }
 

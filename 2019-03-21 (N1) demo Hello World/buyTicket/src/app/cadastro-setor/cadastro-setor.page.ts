@@ -13,26 +13,24 @@ export class CadastroSetorPage implements OnInit {
 
   setor: Setor;
   assentos: Array<Array<Assento>>;
-  cor = ['primary', 'secondary', 'danger', 'medium']
-  corAcento = ['cornflowerblue', 'cyan', 'red', 'darkgray']
+  cor = ['primary', 'secondary', 'tertiary', 'success', 'danger']
   tipoAtual = 0;
-  constructor(private navParams: NavParams,
+  constructor(
     // private modalController: ModalController,
     public provider: ProviderService,
     public navCtrl: NavController,
     public activatedRoute: ActivatedRoute,
     public route: Router
   ) {
-    this.tipoAtual = 0;
+    this.tipoAtual = 1;
     this.setor = new Setor();
 
   }
 
   ngOnInit() {
 
-    let l_sala;//= Number(this.activatedRoute.snapshot.paramMap.get('sala'))
-    let l_setor;// = Number(this.activatedRoute.snapshot.paramMap.get('setor'))
-    l_sala = this.route.getCurrentNavigation().extras.state;
+    let l_setor = Number(this.activatedRoute.snapshot.paramMap.get('setor'))
+    let l_sala = Number(this.activatedRoute.snapshot.paramMap.get('sala'))
     if (l_setor > 0) {
       this.provider.GetSetor(l_setor).then(s => {
         this.setor = s;
@@ -42,7 +40,7 @@ export class CadastroSetorPage implements OnInit {
       })
     } else {
       this.setor = new Setor()
-      this.setor.sala_id = l_sala.id;
+      this.setor.sala_id = l_sala;
     }
 
   }
@@ -50,23 +48,29 @@ export class CadastroSetorPage implements OnInit {
   async excluir() {
     if (this.setor.id > 0)
       this.provider.ExcluirSetor(this.setor.id)
-    // await this.modalController.dismiss();
     this.navCtrl.back();
   }
 
 
   async salvar() {
     this.provider.SalvarSetor(this.setor).then(setor => {
-      this.definirAssentos(setor.id)
-      this.provider.SalvarAssentosSetor(this.assentos).then(() => {
-        alert("Setor " + setor.nome + " salvo com sucesso!");
-      }).catch(erro => {
-        alert("Erro ao salvar setor: " + erro);
+      this.assentos.forEach(linhas => {
+        linhas.forEach(assentos => {
+          assentos.setor_id = this.setor.id;
+        })
+      });
+      this.provider.DeletaAssentos(this.setor.id).then(() => {
+        this.provider.SalvarAssentosSetor(this.assentos).then(() => {
+          alert("Setor " + setor.nome + " salvo com sucesso!");
+        }).catch(erro => {
+          alert("Erro ao salvar setor: " + erro);
+        })
+      }).catch(Erro=>{
+        alert("Erro ao salvar setor: " + Erro);
       })
     }).catch((erro) => {
       alert("Erro ao salvar setor: " + erro);
     })
-    // this.modalController.dismiss();
     this.navCtrl.back();
   }
 
@@ -92,8 +96,8 @@ export class CadastroSetorPage implements OnInit {
     return coluna
   }
 
-  definirAssentos(id_Setor) {
-    this.provider.DeletaAssentos(id_Setor).then(() => {
+  definirAssentos() {
+    this.provider.DeletaAssentos(this.setor.id).then(() => {
       if (this.setor.qtd_fileira > 0 && this.setor.qtd_coluna > 0) {
         this.assentos = [];
         let row = 0
@@ -105,11 +109,10 @@ export class CadastroSetorPage implements OnInit {
           let i = 0;
           while (i < ac.length) {
             ac[i] = new Assento();
-            ac[i].setor_id = id_Setor;
+            ac[i].setor_id = this.setor.id;
             ac[i].linha = i + 1
             ac[i].coluna = this.coluna(row);
-            ac[i].tipo_id = this.tipoAtual;
-            ac[i].status_id = 1;
+            ac[i].tipo_id = this.tipoAtual
             i++
           }
           this.assentos.push(ac);

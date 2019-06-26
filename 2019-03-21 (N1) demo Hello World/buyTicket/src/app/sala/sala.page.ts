@@ -20,7 +20,7 @@ export class SalaPage implements OnInit {
     public modal: ModalController,
     public NavCtrl: NavController,
     public provider: ProviderService) {
-
+      
   }
   
   ngOnInit() {
@@ -35,7 +35,7 @@ export class SalaPage implements OnInit {
    
     this.salas = [];
     this.provider.GetListaSalas().then((data: any) => {
-      this.salas = data.salas;
+      this.salas = data;
     });
   }
   
