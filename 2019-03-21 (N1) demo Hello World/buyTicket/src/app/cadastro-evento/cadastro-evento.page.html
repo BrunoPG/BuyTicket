@@ -9,54 +9,66 @@
 </ion-header>
 <ion-content>
   <ion-item>
-    <ion-label position="stacked">Nome:</ion-label>
+    <ion-label position="fixed">Nome:</ion-label>
     <ion-input [(ngModel)]="evento.nome" #nome="ngModel" name="nome" value="{{evento.nome}}"></ion-input>
   </ion-item>
 
   <ion-item>
-    <ion-label position="stacked">Descrição:</ion-label>
+    <ion-label position="fixed">Descrição:</ion-label>
     <ion-input [(ngModel)]="evento.descricao" #descricao="ngModel" name="descricao" value="{{evento.descricao}}">
     </ion-input>
   </ion-item>
 
   <ion-item>
-    <ion-label position="stacked">Data/Horario:</ion-label>
-    <ion-input [(ngModel)]="evento.data" type="Date" #descricao="ngModel" name="data" value="{{evento.data}}">
-    </ion-input>
-    <ion-input [(ngModel)]="evento.hora" type="Time" #descricao="ngModel" name="hora" value="{{evento.hora}}">
-    </ion-input>
+    <ion-grid align-items-start>
+      <ion-row align-items-start>
+        <ion-col>
+          <ion-label position="fixed">Data/Horario:</ion-label>
+        </ion-col>
+        <ion-col>
+          <ion-input [(ngModel)]="evento.data" type="Date" #descricao="ngModel" name="data" value="{{evento.data}}">
+          </ion-input>
+        </ion-col>
+        <ion-col>
+          <ion-input [(ngModel)]="evento.hora" type="Time" #descricao="ngModel" name="hora" value="{{evento.hora}}">
+          </ion-input>
+        </ion-col>
+        <ion-col>          
+        </ion-col>
+        <ion-col>                    
+        </ion-col>
+        <ion-col>          
+        </ion-col>
+        <ion-col>           
+        </ion-col>
+      </ion-row>
+    </ion-grid>
   </ion-item>
-
   <ion-item>
-    <ion-label position="stacked">local:</ion-label>
+    <ion-label position="fixed">local:</ion-label>
     <ion-input [(ngModel)]="evento.local" #descricao="ngModel" name="local" value="{{evento.local}}"></ion-input>
   </ion-item>
 
   <ion-item>
-    <ion-label position="stacked">Quantidade de ingressos disponíveis:</ion-label>
+    <ion-label position="fixed">Lotação:</ion-label>
     <ion-input [(ngModel)]="evento.qtd_ingresso" #descricao="ngModel" name="qtd_ingresso"
       value="{{evento.qtd_ingresso}}">
     </ion-input>
   </ion-item>
-  <ion-label>Salas</ion-label>
-  <!--
+
+  <ion-list>
+    <ion-list-header>Selecione as salas do evento</ion-list-header>
     <ion-item>
-    <ion-label position="center">Salas</ion-label>
-  </ion-item>
-  <ion-list *ngFor="let sala of evento.salas">
-    <ion-item (click)="editarSetor(setor)">
-      <ion-label>{{sala.nome}}</ion-label>
-      <ion-label>{{sala.descricao}}</ion-label>
-      <ion-label>{{sala.capacidade}</ion-label>
+      <ion-label>Salas</ion-label>
+      <ion-select [interfaceOptions]="customAlertOptions" multiple="true" cancelText="Cancelar" okText="Salvar">
+        <ion-select-option value="{{sala.id}}" *ngFor="let sala of listaSalas" (click)="AddRemoverSala(sala)">{{sala.nome}}
+        </ion-select-option>
+      </ion-select>
     </ion-item>
   </ion-list>
-  -->
   <div text-center>
     <ion-grid align-items-center>
       <ion-row>
-        <ion-col>
-          <ion-button fill="outline" (click)="presentActionSheet()">Adicionar Sala</ion-button>
-        </ion-col>
         <ion-col>
           <ion-button fill="outline" (click)="excluir()">Excluir Evento</ion-button>
         </ion-col>
@@ -65,11 +77,5 @@
         </ion-col>
       </ion-row>
     </ion-grid>
-  </div>
-
-  <ion-list>
-    <ion-item *ngFor="let sala of listaSalas">{{sala.cod}} - {{sala.nome}}
-      <ion-button (click)="removerSala(sala)">Remover Sala</ion-button>
-    </ion-item> 
-  </ion-list>
+  </div>  
 </ion-content>

@@ -51,7 +51,7 @@ export class ProviderService {
   }
 
   SalvarEvento(evento: Evento): Promise<any> {
-    return new Promise(resolve => {
+    return new Promise(resolve => {      
       if (evento.id == 0) {
         this.HTTP.post(`${this.GetRota()}/evento`, evento).subscribe((result: any) => {
           resolve(result.evento)

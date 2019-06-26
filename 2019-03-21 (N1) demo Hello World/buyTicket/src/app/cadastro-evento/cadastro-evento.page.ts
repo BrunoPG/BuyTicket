@@ -24,17 +24,26 @@ export class CadastroEventoPage implements OnInit {
 
   ngOnInit() {
 
+  }
+
+  ionViewDidEnter() {
     let codEvento = this.activatedRoute.snapshot.paramMap.get('idevento')
     if (Number(codEvento) > 0) {
       this.provider.GetEvento(Number(codEvento)).then(evento => {
-        this.evento = evento;
+        this.evento = evento;        
       });
     }
+    this.provider.GetListaSalas().then((salas: any) => {
+      this.listaSalas = salas
+    })
   }
 
-  removerSala(sala: Sala) {
-    let ind = this.listaSalas.indexOf(sala)
-    this.listaSalas.splice(ind, 1);
+  AddRemoverSala(sala: Sala) {
+    let ind = this.evento.salas.indexOf(sala)
+    if (ind >= 0)
+      this.listaSalas.splice(ind, 1);
+    else
+      this.evento.salas.push(sala)
   }
 
   salvar() {
@@ -47,39 +56,12 @@ export class CadastroEventoPage implements OnInit {
     this.NavCtrl.back()
   }
 
-  async presentActionSheet() {
-
-    this.provider.GetListaSalas().then((salas: any) => {      
-      let opt = [];
-      salas.forEach(s => {
-        opt.push({
-          text: `${s.nome} - ${s.descricao}`,
-          value: 'md-albums',
-          handler: () => {
-            this.listaSalas.push(s)
-            
-          }
-        })
-      })
-
-      this.pickerCtrl.create({
-        buttons: [{
-          text: 'Adicionar',
-        }],
-        columns: [
-          {
-            name: 'Salas',
-            options: opt
-          }
-        ]
-      }).then(result => {
-        result.present();
-      })
+  customAlertOptions: any = {
+    header: 'Selas do evento',
+    subHeader: 'Selecione as salas do evento',
+    translucent: true
+  };
 
 
-    }).catch(erro => {
-      alert("Erro ao listar salas")
-    })
-  }
 }
 

@@ -65,6 +65,7 @@ export class Evento {
     hora: Date
     local: String
     qtd_ingresso: Number
+    salas: Array<Sala>;
 
     constructor() {
         this.id = 0
@@ -74,6 +75,7 @@ export class Evento {
         this.hora = new Date();
         this.local = "";
         this.qtd_ingresso = 0;
+        this.salas = Array<Sala>();
     }
 }
 
