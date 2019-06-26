@@ -2,10 +2,10 @@
 const mysqlServer = require('mysql')
 
 const connection = mysqlServer.createConnection({ 
-  host: "localhost",//process.env.MYSQL_HOST,
-  user: "root",//process.env.MYSQL_USERNAME,
-  password: "password",//process.env.MYSQL_PASSWORD,
-  database:  "buy_ticket",// process.env.MYSQL_DATABASE,
+  host: process.env.MYSQL_HOST,
+  user: process.env.MYSQL_USERNAME,
+  password: process.env.MYSQL_PASSWORD,
+  database:  process.env.MYSQL_DATABASE,
   insecureAuth :true
 })
 
@@ -20,6 +20,7 @@ const gastoModule = require('./gasto')({ connection, errorHandler })
 const usersModule = require('./users')({ connection, errorHandler })
 const authModule = require('./auth')({ connection, errorHandler })
 const salaModule = require('./sala')({ connection, errorHandler })
+const vendaModule = require('./venda')({ connection, errorHandler })
 
 module.exports = {
   gasto: () => gastoModule,
@@ -27,5 +28,6 @@ module.exports = {
   users: () => usersModule,
   auth: () => authModule,
   setor: () => setorModule,
-  sala: () => salaModule
+  sala: () => salaModule,
+  venda: () => vendaModule,
 }

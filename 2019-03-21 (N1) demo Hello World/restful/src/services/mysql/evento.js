@@ -30,25 +30,25 @@ const evento = deps => {
     save: (evento) => {
       return new Promise((resolve, reject) => {
         const { connection, errorHandler } = deps
-        connection.query('INSERT INTO evento (titulo, descricao, data, hora, qtde_ingresso) VALUES (?,?,?,?,?)', [evento.titulo, evento.descricao, evento.data, evento.hora, evento.qtde_ingresso], (error, results) => {
+        connection.query('INSERT INTO evento (nome, descricao, data, hora, qtd_ingresso, local) VALUES ( ?, ?, ?, ?, ?, ?)', [evento.nome, evento.descricao, evento.data, evento.hora, evento.qtd_ingresso, evento.local], (error, results) => {
           if (error) {
             console.log(error)
-            errorHandler(error, `Falha ao salvar o evento ${evento.titulo}`, reject)
+            errorHandler(error, `Falha ao salvar o evento ${evento.nome}`, reject)
             return false
           }
-          resolve({ evento: { titulo: evento.titulo, id: results.insertId } })
+          resolve({ evento: { nome: evento.nome, id: results.insertId } })
         })
       })
     },
-    update: (evento, id) => {
+    update: (evento) => {
       return new Promise((resolve, reject) => {
         const { connection, errorHandler } = deps
-        connection.query('UPDATE evento SET titulo = ?, descricao = ?, data = ?, hora = ?, qtde_ingresso = ? WHERE id = ?', [evento.titulo, evento.descricao, evento.data, evento.hora, evento.qtde_ingresso, evento.id], (error, results) => {
+        connection.query('UPDATE evento SET nome = ?, descricao = ?, data = ?, hora = ?, qtd_ingresso = ?, local = ? WHERE id = ?', [evento.nome, evento.descricao, evento.data, evento.hora, evento.qtd_ingresso, evento.local,evento.id], (error, results) => {
           if (error || !results.affectedRows) {
-            errorHandler(error, `Falha ao atualizar o evento ${evento.titulo}`, reject)
+            errorHandler(error, `Falha ao atualizar o evento ${evento.nome}`, reject)
             return false
           }
-          resolve({ evento: { titulo: evento.titulo }, affectedRows: results.affectedRows })
+          resolve({ evento: { nome: evento.nome }, affectedRows: results.affectedRows })
         })
       })
     },
@@ -69,14 +69,16 @@ const evento = deps => {
       return new Promise((resolve, reject) => {
         const { connection, errorHandler } = deps
 
-        connection.query('SELECT * FROM evento WHERE id = ?', [id], (error, results) => {
-          if (error || !results.affectedRows) {
-            errorHandler(error, `Falha ao pegar o evento de id ${id}`, reject)
-            return false
-          }
-          resolve({ evento: results.all, affectedRows: results.affectedRows })
-        })
+          connection.query('SELECT * FROM evento WHERE id = ?  LIMIT 1', [id], (error, results) => {
+            if (error) {
+              errorHandler(error, 'Falha ao listar os sala', reject)
+              return false
+            }
+            resolve({ evento: results[0] })
+          })
+        
       })
+      
     }
   }
 }

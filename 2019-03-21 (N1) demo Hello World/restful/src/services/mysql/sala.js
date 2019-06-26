@@ -65,8 +65,38 @@ const sala = deps => {
           })
         
       })
-    }
+
+      
+    },
+
+    getSalaByEventoId: (evento_id) => {
+      return new Promise((resolve, reject) => {
+        const { connection, errorHandler } = deps
+        connection.query('SELECT * FROM evento_sala WHERE evento_id = ?', [evento_id], (error, results) => {          
+          if (error) {
+            errorHandler(error, 'Falha ao listar os evento', reject)
+            return false
+          }
+          resolve({ salas: results })
+        })
+      })
+    },
+
+    save: (evento) => {
+      return new Promise((resolve, reject) => {
+        const { connection, errorHandler } = deps
+        evento.salas.forEach(sala => {
+          connection.query('INSERT INTO evento_sala (evento_id, sala_id) VALUES (?, ?)', [evento.id, sala], (error, results) => {
+            if (error) {
+              errorHandler(error, 'Falha ao salvar as salas', reject)
+              return false
+            }
+          })
+        })
+      })
+    },
   }
+  
 }
 
 module.exports = sala

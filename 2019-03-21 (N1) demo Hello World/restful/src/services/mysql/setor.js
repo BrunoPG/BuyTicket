@@ -79,7 +79,7 @@ const setor = deps => {
         const { connection, errorHandler } = deps
         acentos.forEach(colunas => {
           colunas.forEach(acento => {
-            connection.query('INSERT INTO Assento (coluna, linha, tipo_id, status_id, setor_id) VALUES (?, ?, ?, ?, ?)', [acento.coluna, acento.linha, acento.tipo_id, acento.ststus_id, acento.setor_id], (error, results) => {
+            connection.query('INSERT INTO Assento (coluna, linha, tipo_id, setor_id) VALUES (?, ?, ?, ?)', [acento.coluna, acento.linha, acento.tipo_id, acento.setor_id], (error, results) => {
               if (error) {
                 errorHandler(error, 'Falha ao salvar os assentos', reject)
                 return false
@@ -90,6 +90,7 @@ const setor = deps => {
         resolve({ retorno: "Assentos salvos com sucesso!" })
       })
     },
+
     getAssentos: (id_setor) => {
       return new Promise((resolve, reject) => {
         const { connection, errorHandler } = deps
@@ -102,6 +103,7 @@ const setor = deps => {
         })
       })
     },
+
     DelAssentos: (id_setor) => {
       return new Promise((resolve, reject) => {
         const { connection, errorHandler } = deps
