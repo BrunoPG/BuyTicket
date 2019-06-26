@@ -50,12 +50,9 @@ const routes = (server) => {
     next()
   })
 
-  server.get('evento/geteventobyid/:id', async (req, res, next) => {
-    if(req.headers.authorization != "123"){
-      return res.send(401, {"message": 'usuario invalido'});
-    }
+  server.get('evento/:id', async (req, res, next) => {
     try {
-      res.send(await db.evento().allByEvento(req.params.id))
+      res.send(await db.evento().getById(req.params.id))
     } catch (error) {
       res.send(error)
     }
@@ -75,7 +72,7 @@ const routes = (server) => {
   server.put('evento', async (req, res, next) => {
     const evento = req.body
     try {
-      res.send(await db.evento().update(evento, evento.id))
+      res.send(await db.evento().update(evento))
     } catch (error) {
       res.send(error)
     }
@@ -242,6 +239,15 @@ const routes = (server) => {
   server.del('assentos/setor/:setor_id', async (req, res, next) => {
     try {
       res.send(await db.setor().DelAssentos(req.params.setor_id))
+    } catch (error) {
+      res.send(error)
+    }
+    next()
+  })
+
+  server.get('sala/evento/:evento_id', async (req, res, next) => {
+    try {
+      res.send(await db.sala().getSalaByEventoId(req.params.evento_id))
     } catch (error) {
       res.send(error)
     }
