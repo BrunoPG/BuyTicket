@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController } from '@ionic/angular';
+import { Evento } from "../configuracao"
+import { ProviderService } from '../provider.service';
 
 @Component({
   selector: 'app-home',
@@ -7,15 +9,23 @@ import { NavController } from '@ionic/angular';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage {
-  constructor(public NavCtrl: NavController) {
 
+  listaEventos: Array<Evento>;
+  constructor(public NavCtrl: NavController,
+    public provider: ProviderService) {
+
+    provider.GetListaEventos().then(eventos => {
+      this.listaEventos = eventos;
+    })
   }
   openEvento() {
     this.NavCtrl.navigateForward('cadastro-evento')
   }
 
 
-  vender() {
-    this.NavCtrl.navigateForward("venda-ingresso")
+  vender(idEvento) {
+    console.log(idEvento)
+    this.NavCtrl.navigateForward("venda-ingresso/" + idEvento)
+
   }
 }

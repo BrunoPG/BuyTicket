@@ -139,7 +139,7 @@ export class ProviderService {
     });
   }
 
-  GetListaSalas(): Promise<Sala> {
+  GetListaSalas(): Promise<Array<Sala>> {
     return new Promise(resolve => {
       this.HTTP.get(this.GetRota() + "/sala/all", {}).subscribe((result: any) => {
         resolve(result.salas);

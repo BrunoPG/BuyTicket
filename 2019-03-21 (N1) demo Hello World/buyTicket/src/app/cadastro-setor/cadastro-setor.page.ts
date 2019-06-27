@@ -13,7 +13,7 @@ export class CadastroSetorPage implements OnInit {
 
   setor: Setor;
   assentos: Array<Array<Assento>>;
-  cor = ['primary', 'secondary', 'tertiary', 'success', 'danger']
+  cor = ['primary', 'secondary', 'tertiary', 'success', 'danger','vendido']
   tipoAtual = 0;
   constructor(
     // private modalController: ModalController,

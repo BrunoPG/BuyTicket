@@ -1,42 +1,53 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Venda</ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Venda: {{evento.nome}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <ion-item>
-    <ion-title position="stacked">Escolhas os lugares:</ion-title>
+    <ion-title position="stacked">Lugares Seleionados:{{selecao_assento}}</ion-title>
   </ion-item>
   <div>
-    <ion-grid>
-      <ion-row style="display: grid;">
-        <ion-radio-group text-center>
-          <ion-col style=" width: 20%;">
-            <ion-label color="{{cor[0]}}">Normal </ion-label>
-            <ion-radio color="{{cor[0]}}" (click)='setTipoAtual(0)'></ion-radio>
-          </ion-col>
-          <ion-col>
-            <ion-label color="{{cor[1]}}">Reservado </ion-label>
-            <ion-radio color="{{cor[1]}}" (click)='setTipoAtual(1)'></ion-radio>
-          </ion-col>
-          <ion-col>
-            <ion-label color="{{cor[2]}}">Especial </ion-label>
-            <ion-radio color="{{cor[2]}}" (click)='setTipoAtual(2)'></ion-radio>
-          </ion-col>
-          <ion-col>
-            <ion-label color="{{cor[3]}}">Outro </ion-label>
-            <ion-radio color="{{cor[3]}}" (click)='setTipoAtual(3)'></ion-radio>
-          </ion-col>
-        </ion-radio-group>
-      </ion-row>
-    </ion-grid>
+    <ion-item>
+      <ion-label color="primary">Normal
+        <ion-radio checked="true" color="{{cor[0]}}"></ion-radio>
+      </ion-label>
+      <ion-label color="secondary">Reservado
+        <ion-radio checked="true" color="{{cor[1]}}"></ion-radio>
+      </ion-label>
+      <ion-label color="tertiary">Especial
+        <ion-radio checked="true" color="{{cor[2]}}">
+        </ion-radio>
+      </ion-label>
+      <ion-label color="success">Outro
+        <ion-radio checked="true" color="{{cor[3]}}">
+        </ion-radio>
+      </ion-label>
+    </ion-item>
   </div>
+  <ion-item>
+    <ion-label>Selecione a sala</ion-label>
+    <ion-select interface="popover" placeholder="Sem sala selecionada" (ionChange)="selecionaSala($event)">
+      <ion-select-option value="{{sala.id}}" *ngFor="let sala of salas">{{sala.nome}}</ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>Selecione o setor</ion-label>
+    <ion-select interface="popover" placeholder="Sem setor selecionada" (ionChange)="selecionaSetor($event)">
+      <ion-select-option value="{{setor.id}}" *ngFor="let setor of setoressala">{{setor.nome}}
+      </ion-select-option>
+    </ion-select>
+  </ion-item>
   <ion-grid>
-    <ion-row *ngFor="let row of acentos">
-      <ion-col *ngFor="let acento of row" style="width: 1%; height: 2%;">
-        <ion-checkbox></ion-checkbox>
-        <ion-label style="font-size: 10px"></ion-label>
+    <ion-row *ngFor="let row of assentos">
+      <ion-col *ngFor="let assento of row" style="width: 1%; height: 2%;">
+        <app-buy-assento assento="{{assento.coluna}}{{assento.linha}}" cor="{{cor[assento.tipo_id-1]}}"
+          (click)="selecionarAssento(assento)"></app-buy-assento>
       </ion-col>
     </ion-row>
   </ion-grid>

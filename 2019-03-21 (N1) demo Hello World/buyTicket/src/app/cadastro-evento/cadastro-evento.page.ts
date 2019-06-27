@@ -36,7 +36,15 @@ export class CadastroEventoPage implements OnInit {
     this.provider.GetListaSalas().then((salas: any) => {
       this.listaSalas = salas
     })
+
+    this.evento.salas.push(this.listaSalas[0])
   }
+
+  compareWith(sala){
+    return true
+  } 
+
+
 
   AddRemoverSala(sala: Sala) {
     let ind = this.evento.salas.indexOf(sala)
@@ -57,7 +65,7 @@ export class CadastroEventoPage implements OnInit {
   }
 
   customAlertOptions: any = {
-    header: 'Selas do evento',
+    header: 'Salas do evento',
     subHeader: 'Selecione as salas do evento',
     translucent: true
   };

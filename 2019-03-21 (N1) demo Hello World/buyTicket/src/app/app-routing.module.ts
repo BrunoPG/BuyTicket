@@ -12,7 +12,7 @@ const routes: Routes = [
   { path: 'cadastro-setor/:sala/:setor', loadChildren: './cadastro-setor/cadastro-setor.module#CadastroSetorPageModule' },
   { path: 'cadastro-sala/:id', loadChildren: './cadastro-sala/cadastro-sala.module#CadastroSalaPageModule' },
   { path: 'cadastro-evento/:idevento', loadChildren: './cadastro-evento/cadastro-evento.module#CadastroEventoPageModule' },
-  { path: 'venda-ingresso', loadChildren: './venda-ingresso/venda-ingresso.module#VendaIngressoPageModule' },
+  { path: 'venda-ingresso/:idevento', loadChildren: './venda-ingresso/venda-ingresso.module#VendaIngressoPageModule' },
   { path: 'venda-preco', loadChildren: './venda-preco/venda-preco.module#VendaPrecoPageModule' },
   { path: 'slides', loadChildren: './slides/slides.module#SlidesPageModule' }
 ];

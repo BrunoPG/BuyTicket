@@ -17,7 +17,7 @@ import { BuyAssentoComponent } from './buy-assento/buy-assento.component';
 
 @NgModule({
   declarations: [AppComponent],
-  entryComponents: [],
+  entryComponents: [BuyAssentoComponent],
   imports: [
     BrowserModule,
     IonicModule.forRoot(),
@@ -28,7 +28,7 @@ import { BuyAssentoComponent } from './buy-assento/buy-assento.component';
     CadastroEventoPageModule,
     HttpModule,
     HttpClientModule
-  ],
+  ],  
   providers: [
     StatusBar,
     SplashScreen,
@@ -36,4 +36,4 @@ import { BuyAssentoComponent } from './buy-assento/buy-assento.component';
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }

@@ -82,11 +82,24 @@ const sala = deps => {
       })
     },
 
-    save: (evento) => {
+    saveEventoSala: (evento) => {
       return new Promise((resolve, reject) => {
         const { connection, errorHandler } = deps
         evento.salas.forEach(sala => {
           connection.query('INSERT INTO evento_sala (evento_id, sala_id) VALUES (?, ?)', [evento.id, sala], (error, results) => {
+            if (error) {
+              errorHandler(error, 'Falha ao salvar as salas', reject)
+              return false
+            }
+          })
+        })
+      })
+    },
+    DeleteEventoSala: (evento) => {
+      return new Promise((resolve, reject) => {
+        const { connection, errorHandler } = deps
+        evento.salas.forEach(sala => {
+          connection.query('evento_sala (evento_id, sala_id) VALUES (?, ?)', [evento.id, sala], (error, results) => {
             if (error) {
               errorHandler(error, 'Falha ao salvar as salas', reject)
               return false

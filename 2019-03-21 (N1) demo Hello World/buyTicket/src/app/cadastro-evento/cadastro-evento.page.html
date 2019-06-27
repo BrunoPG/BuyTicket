@@ -60,12 +60,12 @@
     <ion-list-header>Selecione as salas do evento</ion-list-header>
     <ion-item>
       <ion-label>Salas</ion-label>
-      <ion-select [interfaceOptions]="customAlertOptions" multiple="true" cancelText="Cancelar" okText="Salvar">
-        <ion-select-option value="{{sala.id}}" *ngFor="let sala of listaSalas" (click)="AddRemoverSala(sala)">{{sala.nome}}
+      <ion-select [interfaceOptions]="customAlertOptions" [compareWith]="compareWith" multiple="true" cancelText="Cancelar" okText="Salvar">
+        <ion-select-option  value="{{sala.id}}" *ngFor="let sala of listaSalas" (click)="AddRemoverSala(sala)">{{sala.nome}}
         </ion-select-option>
       </ion-select>
     </ion-item>
-  </ion-list>
+  </ion-list> 
   <div text-center>
     <ion-grid align-items-center>
       <ion-row>

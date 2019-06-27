@@ -26,6 +26,7 @@ export class EventoPage implements OnInit {
 
   }
 
+  
   ionViewDidEnter() {
     this.provider.GetListaEventos().then(eventos => {
       this.eventos = eventos;

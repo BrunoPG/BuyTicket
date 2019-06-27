@@ -18,6 +18,9 @@
 .danger{
    background-color:#f04141
 }
+.vendido{
+   background-color:#0b0e0b
+}
  
   .app-assento { 
      text-align: center;     
@@ -34,10 +37,7 @@
      -webkit-appearance: none;
      -moz-appearance: none;
      appearance: none;
-     outline: none;    
-     &:hover{
-        background: var(--color-assento)
-       }
+     outline: none;         
      
     }
  

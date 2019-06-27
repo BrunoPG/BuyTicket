@@ -29,7 +29,7 @@ const setor = deps => {
     update: (setor) => {
       return new Promise((resolve, reject) => {
         const { connection, errorHandler } = deps
-        connection.query('UPDATE setor SET nome = ?, descricao = ?, sala_id = ? WHERE id = ?', [setor.nome, setor.descricao, setor.sala_id, setor.id], (error, results) => {
+        connection.query('UPDATE setor SET nome = ?, descricao = ?, sala_id = ?, qtd_fileira = ?, qtd_coluna = ? WHERE id = ?', [setor.nome, setor.descricao, setor.sala_id, setor.qtd_fileira, setor.qtd_coluna, setor.id], (error, results) => {
           if (error || !results.affectedRows) {
             errorHandler(error, `Falha ao atualizar o setor ${setor.nome}`, reject)
             return false

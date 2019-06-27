@@ -2,11 +2,9 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
-
 import { IonicModule } from '@ionic/angular';
-
 import { CadastroSetorPage } from './cadastro-setor.page';
-import { BuyAssentoComponent } from '../buy-assento/buy-assento.component';
+import { BuyAssentoModule } from '../buy-assento/buy-assento.module';
 
 const routes: Routes = [
   {
@@ -20,8 +18,9 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     IonicModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+    BuyAssentoModule
   ],
-  declarations: [CadastroSetorPage,BuyAssentoComponent]
+  declarations: [CadastroSetorPage]
 })
-export class CadastroSetorPageModule {}
+export class CadastroSetorPageModule { }
