@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Setor, Assento, Sala, Evento } from '../configuracao';
+import { Setor, Assento, Sala, Evento, Ingresso } from '../configuracao';
 import { NavController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 import { ProviderService } from '../provider.service';
+import { BuyAssentoModule } from '../buy-assento/buy-assento.module';
 
 @Component({
   selector: 'app-venda-ingresso',
@@ -20,6 +21,7 @@ export class VendaIngressoPage implements OnInit {
   salaSelec: Number
   setorSelec: Number
   assentosSelec: Array<Assento>
+  ingressos: Array<Ingresso>;
   constructor(public NavCtrl: NavController, public activatedRoute: ActivatedRoute, public provider: ProviderService) {
 
     this.assentos = new Array<Array<Assento>>();
@@ -27,6 +29,7 @@ export class VendaIngressoPage implements OnInit {
     this.salas = Array<Sala>();
     this.evento = new Evento();
     this.assentosSelec = new Array<Assento>()
+    this.ingressos = new Array<Ingresso>();
     let id_Evento = this.activatedRoute.snapshot.paramMap.get('idevento')
     provider.GetEvento(Number(id_Evento)).then(evento => {
       this.evento = evento
@@ -35,18 +38,6 @@ export class VendaIngressoPage implements OnInit {
         this.salas = salas
         this.salaSelec = 0;
         this.setorSelec = 0;
-        // if (this.salas.length > 0) {
-        //   this.salaSelec = this.salas[0].id
-        //   this.provider.GetSetoresSala(this.salaSelec).then(setores => {
-        //     this.setoressala = setores
-        //     if (this.setoressala.length > 0) {
-        //       this.setorSelec = this.setoressala[0].id
-        //       this.provider.GetAssentos(this.setorSelec).then(assentos => {
-        //         this.assentos = assentos
-        //       })
-        //     }
-        //   })
-        // }
       })
     })
 
@@ -72,15 +63,23 @@ export class VendaIngressoPage implements OnInit {
   }
 
   selecionarAssento(assento) {
-    let indx = this.assentosSelec.indexOf(assento)
-    if (indx >= 0)
-      this.assentosSelec.splice(indx, 1);
-    else {
-      this.assentosSelec.push(assento);
-    }
+    // let indx = this.assentosSelec.indexOf(assento)
+    // if (indx >= 0)
+    //   this.assentosSelec.splice(indx, 1);
+    // else {
+    //   this.assentosSelec.push(assento);
+    // }
+    let ingresso = new Ingresso();
+    ingresso.id = 0;
+    ingresso.cadeira_id = assento.id
+    ingresso.evento_id = this.evento.id
+    this.ingressos.push(ingresso)
   }
   finalizaVenda() {
-    this.NavCtrl.navigateForward("venda-preco")
+    this.provider.SalvaIngresso(this.ingressos).then((venda: any) => {
+      this.NavCtrl.navigateForward("venda-preco/" + venda.id)
+    });
+
   }
 
 }

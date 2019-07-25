@@ -3,6 +3,7 @@ import { Evento, Sala } from '../configuracao';
 import { ProviderService } from '../provider.service';
 import { ActivatedRoute } from '@angular/router';
 import { NavParams, NavController, ModalController, ActionSheetController, PickerController } from '@ionic/angular';
+import { now } from 'moment';
 
 @Component({
   selector: 'app-cadastro-evento',
@@ -30,7 +31,7 @@ export class CadastroEventoPage implements OnInit {
     let codEvento = this.activatedRoute.snapshot.paramMap.get('idevento')
     if (Number(codEvento) > 0) {
       this.provider.GetEvento(Number(codEvento)).then(evento => {
-        this.evento = evento;        
+        this.evento = evento;
       });
     }
     this.provider.GetListaSalas().then((salas: any) => {
@@ -40,13 +41,24 @@ export class CadastroEventoPage implements OnInit {
     this.evento.salas.push(this.listaSalas[0])
   }
 
-  compareWith(sala){
+  compareWith(sala) {
     return true
-  } 
+  }
+
+  limite() {
+    return new Date().getFullYear() + 2
+  }
+
+  Data(date) {
+    let data = (new Date(date)).toLocaleDateString("pt-BR")
+    return data
+
+  }
 
 
 
   AddRemoverSala(sala: Sala) {
+    console.log("foi")
     let ind = this.evento.salas.indexOf(sala)
     if (ind >= 0)
       this.listaSalas.splice(ind, 1);
@@ -55,7 +67,21 @@ export class CadastroEventoPage implements OnInit {
   }
 
   salvar() {
-    this.provider.SalvarEvento(this.evento);
+    this.provider.SalvarEvento(this.evento).then((result: any) => {
+      if (this.evento.id > 0) {
+        this.provider.SalvarSalaEvento(this.evento.id, this.listaSalas).then(result => {
+
+        }).catch(erro => {
+          alert("Erro ao salvar salas")
+        })
+      } else {
+        this.provider.SalvarSalaEvento(result.id, this.listaSalas).then(result => {
+
+        }).catch(erro => {
+          alert("Erro ao salvar salas")
+        })
+      }
+    });
     this.NavCtrl.back();
   }
 

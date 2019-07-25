@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { ProviderService } from '../provider.service';
+import { Venda } from '../configuracao';
 
 @Component({
   selector: 'app-venda-preco',
@@ -7,7 +10,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class VendaPrecoPage implements OnInit {
 
-  constructor() { }
+  venda: Venda
+  constructor(public provider: ProviderService, public activatedRoute: ActivatedRoute) {
+    // let id_Evento = this.activatedRoute.snapshot.paramMap.get('idevento')
+    // this.provider.GetVenda(id_Evento).then(venda => {
+    //   this.venda = venda
+    // })
+  }
 
   ngOnInit() {
   }

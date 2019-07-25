@@ -7,32 +7,41 @@
 <ion-content>
 
   <ion-item>
-    <ion-label position="fixed">Acentos:</ion-label>
-    <ion-input> A1 - A3 - A4 - A5</ion-input>
+    <ion-label position="fixed">Evento</ion-label>
+    <ion-input type="number" value="{{venda.nome_evento}}"></ion-input>
   </ion-item>
-
-
   <ion-item>
-    <ion-label position="fixed">Inteira:</ion-label>
-    <ion-input type="number"></ion-input>
+    <ion-label position="fixed">Sala</ion-label>
+    <ion-input type="number" value="{{venda.nome_sala}}"></ion-input>
   </ion-item>
-
   <ion-item>
-    <ion-label position="fixed">Meia:</ion-label>
-    <ion-input type="number"></ion-input>
+    <ion-label position="fixed">Setor</ion-label>
+    <ion-input type="number" value="{{venda.nome_setor}}"></ion-input>
   </ion-item>
-
   <ion-item>
-    <ion-label position="fixed">Inteira:</ion-label>
-    <ion-input type="number"></ion-input>
+    <ion-label position="fixed" *ngFor="let assento of venda.assentos">Acentos</ion-label>
+    <ion-input>{{assento.coluna}}{{assento.linha}}</ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="fixed">Local</ion-label>
+    <ion-input type="number" value="{{venda.local_evento}}"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="fixed">Data</ion-label>
+    <ion-input type="number" value="{{venda.data_evento}}"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="fixed">Total</ion-label>
+    <ion-input type="number" value="{{venda.valor_total}}"></ion-input>
   </ion-item>
 
-  <ion-footer>
+  <!-- <ion-footer>
     <ion-toolbar>
       <ion-item>
-        <ion-title>Total: R$ 30,00 </ion-title>
+        <ion-title>Total: R$ {{venda.total}} </ion-title>
         <ion-button color="primary">Finalizar</ion-button>
       </ion-item>
     </ion-toolbar>
-  </ion-footer>
+  </ion-footer> -->
+
 </ion-content>

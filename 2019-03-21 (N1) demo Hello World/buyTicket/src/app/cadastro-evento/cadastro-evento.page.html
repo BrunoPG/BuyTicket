@@ -26,20 +26,19 @@
           <ion-label position="fixed">Data/Horario:</ion-label>
         </ion-col>
         <ion-col>
-          <ion-input [(ngModel)]="evento.data" type="Date" #descricao="ngModel" name="data" value="{{evento.data}}">
-          </ion-input>
+          <ion-datetime displayFormat="DD/MM/YYYY" min="2019" max="{{limite()}}" value="{{evento.data}}"></ion-datetime>
         </ion-col>
         <ion-col>
           <ion-input [(ngModel)]="evento.hora" type="Time" #descricao="ngModel" name="hora" value="{{evento.hora}}">
           </ion-input>
         </ion-col>
-        <ion-col>          
+        <ion-col>
         </ion-col>
-        <ion-col>                    
+        <ion-col>
         </ion-col>
-        <ion-col>          
+        <ion-col>
         </ion-col>
-        <ion-col>           
+        <ion-col>
         </ion-col>
       </ion-row>
     </ion-grid>
@@ -60,12 +59,14 @@
     <ion-list-header>Selecione as salas do evento</ion-list-header>
     <ion-item>
       <ion-label>Salas</ion-label>
-      <ion-select [interfaceOptions]="customAlertOptions" [compareWith]="compareWith" multiple="true" cancelText="Cancelar" okText="Salvar">
-        <ion-select-option  value="{{sala.id}}" *ngFor="let sala of listaSalas" (click)="AddRemoverSala(sala)">{{sala.nome}}
+      <ion-select [interfaceOptions]="customAlertOptions" [compareWith]="compareWith" multiple="true"
+        cancelText="Cancelar" okText="Salvar">
+        <ion-select-option value="{{sala.id}}" *ngFor="let sala of listaSalas" (click)="AddRemoverSala(sala)">
+          {{sala.nome}}
         </ion-select-option>
       </ion-select>
     </ion-item>
-  </ion-list> 
+  </ion-list>
   <div text-center>
     <ion-grid align-items-center>
       <ion-row>
@@ -77,5 +78,5 @@
         </ion-col>
       </ion-row>
     </ion-grid>
-  </div>  
+  </div>
 </ion-content>

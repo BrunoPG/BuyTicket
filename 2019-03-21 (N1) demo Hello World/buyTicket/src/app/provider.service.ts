@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
-import { Sala, Setor, Evento, Assento } from '../../src/app/configuracao';
+import { Sala, Setor, Evento, Assento, Venda, Ingresso } from '../../src/app/configuracao';
 import { HttpClient } from '@angular/common/http';
 import { reject } from 'q';
 
@@ -50,15 +50,15 @@ export class ProviderService {
     })
   }
 
-  SalvarEvento(evento: Evento): Promise<any> {
-    return new Promise(resolve => {      
+  SalvarEvento(evento: Evento): Promise<Evento> {
+    return new Promise(resolve => {
       if (evento.id == 0) {
         this.HTTP.post(`${this.GetRota()}/evento`, evento).subscribe((result: any) => {
           resolve(result.evento)
         }, erro => {
           reject(erro.erro)
         })
-      }else{
+      } else {
         this.HTTP.put(`${this.GetRota()}/evento`, evento).subscribe((result: any) => {
           resolve(result.evento)
         }, erro => {
@@ -76,7 +76,7 @@ export class ProviderService {
   }
 
   GetSalaNaoEventos(evento: Evento): Array<Sala> {
-    
+
     return new Array<Sala>();
   }
 
@@ -315,5 +315,48 @@ export class ProviderService {
         });
       })
   }
+
+  SalvaIngresso(ingressos): Promise<any> {
+    return new Promise(
+      (resolve) => {
+        this.HTTP.post(this.GetRota() + "/venda/save", ingressos).subscribe((result: any) => {
+          console.log(result)
+          if (result.venda != null)
+            resolve(result.venda_id)
+          else
+            console.log('Erro:', result.erro)
+        }, erro => {
+          console.log('Erro:', erro.erro)
+        });
+      })
+  }
+
+  GetVenda(idVenda): Promise<any> {
+    return new Promise(
+      (resolve) => {
+        this.HTTP.get(this.SERVIDOR + ":" + this.PORTA + "/venda/" + idVenda, {}).subscribe((result: any) => {
+          if (result.erro == null)
+            resolve(result.venda)
+          else
+            reject(result.erro)
+        }, erro => {
+          reject(erro.erro)
+        });
+      })
+  }
+
+  SalvarSalaEvento(idEvento, salas) {
+    return new Promise(
+      (resolve) => {
+        this.HTTP.post(this.GetRota() + "/evento/sala/" + idEvento, salas).subscribe((result: any) => {
+          if (result == null)
+            console.log('Erro:', result.erro)
+        }, erro => {
+          console.log('Erro:', erro.erro)
+        });
+      })
+  }
+
+
 
 }
